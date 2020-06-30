@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class TextDataReader {
+public class TextFileReader {
     private static final String DEFAULT_FILE = "input/defaultData.txt";
 
     public List<String> readText(String file) throws IncorrectDataException {
@@ -20,13 +20,10 @@ public class TextDataReader {
             }
         }
         try {
-            List<String> data = Files.readAllLines(path);
-            if (data.isEmpty()) {
-                throw new IncorrectDataException("incorrect file");
-            }
-            return data;
+            List<String> paragraphText = Files.readAllLines(path);
+            return paragraphText;
         } catch (IOException e) {
-            throw new IncorrectDataException("incorrect file");
+            throw new IncorrectDataException("incorrect file", e);
         }
     }
 }
