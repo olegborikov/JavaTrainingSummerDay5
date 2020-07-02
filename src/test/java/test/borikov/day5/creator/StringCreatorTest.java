@@ -7,6 +7,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,77 +27,8 @@ public class StringCreatorTest {
         stringCreator = null;
     }
 
-    @DataProvider(name = "createStringTextPositiveData")
-    public Object[][] createCreateStringTextPositiveData() {
-        String defaultDataText = "— Я так очарован прелестями ума" +
-                " и образования общества, в особенности женского. " +
-                "Анна Павловна для удобства наблюдения присоединила " +
-                "их к общему кружку. " +
-                "В это время в гостиную вошло какое-то новое лицо. " +
-                "Here you can find activities to practise your reading skills.";
-        String validDataText = "— Я как-то очаро3ван прелестями," +
-                ", ума и образования общ2ества. " +
-                "  Here you can find activities to practise your reading s3kills. " +
-                "Reading will help you to imp3-rove  " +
-                " the language and -build your voca6bulary.";
-        return new Object[][]{
-                {"qwerty.txt", defaultDataText},
-                {"input/validData.txt", validDataText}
-        };
-    }
-
-    @Test(dataProvider = "createStringTextPositiveData")
-    public void createStringTextPositiveTest(String file, String expected) {
-        try {
-            String actual = stringCreator.createStringText(file);
-            assertEquals(actual, expected);
-        } catch (IncorrectDataException e) {
-            fail("incorrect input");
-        }
-    }
-
-    @DataProvider(name = "createStringTextNegativeData")
-    public Object[][] createCreateStringTextNegativeData() {
-        String defaultDataText = "— Я так очарован прелестями ума и " +
-                "образования общества, в особенности женского.";
-        String validDataText = "— Я как-то очаро3ван прелестями,," +
-                " ума и образования общ2ества." +
-                "  Here you can find activities to practise your reading s3kills." +
-                "Reading will help you to imp3-rove   " +
-                "the language and -build your voca6bulary";
-        return new Object[][]{
-                {"qwerty.txt", defaultDataText},
-                {"input/validData.txt", validDataText}
-        };
-    }
-
-    @Test(dataProvider = "createStringTextNegativeData")
-    public void createStringTextNegativeTest(String file, String expected) {
-        try {
-            String actual = stringCreator.createStringText(file);
-            assertNotEquals(actual, expected);
-        } catch (IncorrectDataException e) {
-            fail("incorrect input");
-        }
-    }
-
-    @DataProvider(name = "createStringExceptionData")
-    public Object[][] createCreateStringTextExceptionData() {
-        return new Object[][]{
-                {null},
-                {"input/invalidData.txt"},
-        };
-    }
-
-    @Test(dataProvider = "createStringExceptionData",
-            expectedExceptions = IncorrectDataException.class)
-    public void createStringTextExceptionTest(String file)
-            throws IncorrectDataException {
-        stringCreator.createStringText(file);
-    }
-
-    @DataProvider(name = "createWordListTextPositiveData")
-    public Object[][] createCreateWordListTextPositiveData() {
+    @DataProvider(name = "createWordListTextFilePositiveData")
+    public Object[][] createCreateWordListTextFilePositiveData() {
         List<String> defaultDataText = new ArrayList<>();
         defaultDataText.add("Я");
         defaultDataText.add("так");
@@ -108,26 +41,6 @@ public class StringCreatorTest {
         defaultDataText.add("в");
         defaultDataText.add("особенности");
         defaultDataText.add("женского");
-        defaultDataText.add("Анна");
-        defaultDataText.add("Павловна");
-        defaultDataText.add("для");
-        defaultDataText.add("удобства");
-        defaultDataText.add("наблюдения");
-        defaultDataText.add("присоединила");
-        defaultDataText.add("их");
-        defaultDataText.add("к");
-        defaultDataText.add("общему");
-        defaultDataText.add("кружку");
-        defaultDataText.add("В");
-        defaultDataText.add("это");
-        defaultDataText.add("время");
-        defaultDataText.add("в");
-        defaultDataText.add("гостиную");
-        defaultDataText.add("вошло");
-        defaultDataText.add("какое");
-        defaultDataText.add("то");
-        defaultDataText.add("новое");
-        defaultDataText.add("лицо");
         defaultDataText.add("Here");
         defaultDataText.add("you");
         defaultDataText.add("can");
@@ -148,16 +61,6 @@ public class StringCreatorTest {
         validDataText.add("и");
         validDataText.add("образования");
         validDataText.add("общ2ества");
-        validDataText.add("Here");
-        validDataText.add("you");
-        validDataText.add("can");
-        validDataText.add("find");
-        validDataText.add("activities");
-        validDataText.add("to");
-        validDataText.add("practise");
-        validDataText.add("your");
-        validDataText.add("reading");
-        validDataText.add("s3kills");
         validDataText.add("Reading");
         validDataText.add("will");
         validDataText.add("help");
@@ -177,19 +80,19 @@ public class StringCreatorTest {
         };
     }
 
-    @Test(dataProvider = "createWordListTextPositiveData")
-    public void createWordListTextPositiveTest(String file, List<String> expected) {
+    @Test(dataProvider = "createWordListTextFilePositiveData")
+    public void createWordListTextFilePositiveTest(String fileName,
+                                                   List<String> expected) {
         try {
-            List<String> actual = stringCreator.createWordListText(file);
+            List<String> actual = stringCreator.createWordListTextFile(fileName);
             assertEquals(actual, expected);
-
         } catch (IncorrectDataException e) {
             fail("incorrect input");
         }
     }
 
-    @DataProvider(name = "createWordListTextNegativeData")
-    public Object[][] createCreateWordListTextNegativea() {
+    @DataProvider(name = "createWordListTextFileNegativeData")
+    public Object[][] createCreateWordListTextFileNegativeData() {
         List<String> defaultDataText = new ArrayList<>();
         defaultDataText.add("Я");
         defaultDataText.add("так");
@@ -209,20 +112,109 @@ public class StringCreatorTest {
         };
     }
 
-    @Test(dataProvider = "createWordListTextNegativeData")
-    public void createWordListTextNegativeTest(String file, List<String> expected) {
+    @Test(dataProvider = "createWordListTextFileNegativeData")
+    public void createWordListTextFileNegativeTest(String fileName,
+                                                   List<String> expected) {
         try {
-            List<String> actual = stringCreator.createWordListText(file);
+            List<String> actual = stringCreator.createWordListTextFile(fileName);
             assertNotEquals(actual, expected);
         } catch (IncorrectDataException e) {
             fail("incorrect input");
         }
     }
 
-    @Test(dataProvider = "createStringExceptionData",
-            expectedExceptions = IncorrectDataException.class)
-    public void createWordListTextExceptionTest(String file)
+    @Test(expectedExceptions = IncorrectDataException.class)
+    public void createWordListTextExceptionTest()
             throws IncorrectDataException {
-        stringCreator.createWordListText(file);
+        String fileName = null;
+        stringCreator.createWordListTextFile(fileName);
+    }
+
+    @DataProvider(name = "createWordListTextConsolePositiveData")
+    public Object[][] createCreateWordListTextConsolePositiveData() {
+        String text1 = "Hello, world Привет   мир! Привет  " +
+                " мир! ,.! Пока1. Пока2!   Пока...   ";
+        List<String> expected1 = new ArrayList<>();
+        expected1.add("Hello");
+        expected1.add("world");
+        expected1.add("Привет");
+        expected1.add("мир");
+        expected1.add("Привет");
+        expected1.add("мир");
+        expected1.add("Пока1");
+        expected1.add("Пока2");
+        expected1.add("Пока");
+        String text2 = "нет да \t\t!`~net,,,,da";
+        List<String> expected2 = new ArrayList<>();
+        expected2.add("нет");
+        expected2.add("да");
+        expected2.add("net");
+        expected2.add("da");
+        String text3 = "###,  !#\t\t!`~,,,,";
+        List<String> expected3 = new ArrayList<>();
+        return new Object[][]{
+                {text1, expected1},
+                {text2, expected2},
+                {text3, expected3}
+        };
+    }
+
+    @Test(dataProvider = "createWordListTextConsolePositiveData")
+    public void createWordListTextConsolePositiveTest(String data,
+                                                      List<String> expected) {
+        try {
+            InputStream inputData = new ByteArrayInputStream(data.getBytes());
+            List<String> actual = stringCreator.createWordListTextConsole(inputData);
+            assertEquals(actual, expected);
+        } catch (IncorrectDataException e) {
+            fail("incorrect input");
+        }
+    }
+
+    @DataProvider(name = "createWordListTextConsoleNegativeData")
+    public Object[][] createCreateWordListTextConsoleNegativeData() {
+        String text1 = "Hello, world Привет   мир! Привет  " +
+                " мир! ,.! Пока1. Пока2!   Пока...   ";
+        List<String> expected1 = new ArrayList<>();
+        expected1.add("Hello");
+        expected1.add("world");
+        expected1.add("Привет");
+        expected1.add("мир");
+        expected1.add("Пока1");
+        expected1.add("Пока2");
+        expected1.add("Пока");
+        String text2 = "нет да \t\t!`~net,,,,da";
+        List<String> expected2 = new ArrayList<>();
+        expected2.add("нет");
+        expected2.add("да");
+        expected2.add("net");
+        expected2.add(" ");
+        String text3 = "###,  !#\t\t!`~,,,,";
+        List<String> expected3 = new ArrayList<>();
+        expected3.add(" ");
+        return new Object[][]{
+                {text1, expected1},
+                {text2, expected2},
+                {text3, expected3}
+        };
+    }
+
+    @Test(dataProvider = "createWordListTextConsoleNegativeData")
+    public void createWordListTextConsoleNegativeTest(String data,
+                                                      List<String> expected) {
+        try {
+            InputStream inputData = new ByteArrayInputStream(data.getBytes());
+            List<String> actual = stringCreator.createWordListTextConsole(inputData);
+            assertNotEquals(actual, expected);
+        } catch (IncorrectDataException e) {
+            fail("incorrect input");
+        }
+    }
+
+    @Test(expectedExceptions = IncorrectDataException.class)
+    public void createWordListTextConsoleExceptionTest()
+            throws IncorrectDataException {
+        InputStream inputData = null;
+        stringCreator.createWordListTextConsole(inputData);
     }
 }

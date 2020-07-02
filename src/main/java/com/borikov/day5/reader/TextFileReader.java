@@ -9,18 +9,20 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class TextFileReader {
+    private static final String LINE_BREAK = "\n";
     private static final String DEFAULT_FILE = "input/defaultData.txt";
 
-    public List<String> readText(String file) throws IncorrectDataException {
-        Path path = Paths.get(DEFAULT_FILE);
-        if (file != null) {
-            path = Paths.get(file);
-            if (Files.notExists(path)) {
-                path = Paths.get(DEFAULT_FILE);
-            }
+    public String readText(String fileName) throws IncorrectDataException {
+        Path path;
+        if (fileName != null && Files.exists(Paths.get(fileName))) {
+            path = Paths.get(fileName);
+        } else {
+            path = Paths.get(DEFAULT_FILE);
         }
         try {
-            return Files.readAllLines(path);
+            List<String> paragraphText = Files.readAllLines(path);
+            String text = String.join(LINE_BREAK, paragraphText);
+            return text;
         } catch (IOException e) {
             throw new IncorrectDataException("incorrect file", e);
         }

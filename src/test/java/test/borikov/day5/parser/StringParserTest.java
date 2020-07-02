@@ -25,90 +25,81 @@ public class StringParserTest {
         stringParser = null;
     }
 
-    @Test
-    public void testParseListToString() {
-    }
-
-    @DataProvider(name = "parseParagraphListToWordListPositiveData")
-    public Object[][] createParseParagraphListToWordListPositiveData() {
-        List<String> paragraphText1 = new ArrayList<>();
-        paragraphText1.add("Hello, world");
-        paragraphText1.add("Привет   мир!");
-        paragraphText1.add("      ");
-        paragraphText1.add("   Пока1. Пока2!   Пока...   ");
+    @DataProvider(name = "parseTextToWordListPositiveData")
+    public Object[][] createParseTextToWordListPositiveData() {
+        String text1 = "Hello, world Привет   мир! \nПривет" +
+                "   мир! ,.! Пока1. Пока2!   Пока...   ";
         List<String> expected1 = new ArrayList<>();
         expected1.add("Hello");
         expected1.add("world");
         expected1.add("Привет");
         expected1.add("мир");
+        expected1.add("Привет");
+        expected1.add("мир");
         expected1.add("Пока1");
         expected1.add("Пока2");
         expected1.add("Пока");
-        List<String> paragraphText2 = new ArrayList<String>();
-        paragraphText2.add("NONE,,,,,,,.....OF");
-        paragraphText2.add(" Hello ");
+        String text2 = "нет да \n\n\n\n\t\t!`~net,,,,da";
         List<String> expected2 = new ArrayList<>();
-        expected2.add("NONE");
-        expected2.add("OF");
-        expected2.add("Hello");
-        List<String> paragraphText3 = new ArrayList<>();
-        paragraphText3.add("ктонибудь");
-        paragraphText3.add("NONE,,,,,,,.....OF\n");
-        paragraphText3.add(" Hello ");
+        expected2.add("нет");
+        expected2.add("да");
+        expected2.add("net");
+        expected2.add("da");
+        String text3 = "###,  !#\t\t!`~,,,,";
         List<String> expected3 = new ArrayList<>();
-        expected3.add("ктонибудь");
-        expected3.add("NONE");
-        expected3.add("OF");
-        expected3.add("Hello");
         return new Object[][]{
-                {paragraphText1, expected1},
-                {paragraphText2, expected2},
-                {paragraphText3, expected3},
+                {text1, expected1},
+                {text2, expected2},
+                {text3, expected3}
         };
     }
 
-    @Test(dataProvider = "parseParagraphListToWordListPositiveData")
-    public void parseParagraphListToWordListPositiveTest(
-            List<String> paragraphText, List<String> expected) {
+    @Test(dataProvider = "parseTextToWordListPositiveData")
+    public void parseTextToWordListPositiveTest(
+            String text, List<String> expected) {
         try {
-            List<String> actual = stringParser.parseParagraphListToWordList(paragraphText);
+            List<String> actual = stringParser.parseTextToWordList(text);
             assertEquals(actual, expected);
         } catch (IncorrectDataException e) {
             fail("incorrect data");
         }
     }
 
-    @DataProvider(name = "parseParagraphListToWordListNegativeData")
-    public Object[][] createParseParagraphListToWordListNegativeData() {
-        List<String> paragraphText1 = new ArrayList<>();
-        paragraphText1.add("Hello, world");
-        paragraphText1.add("Привет   мир!");
-        paragraphText1.add("   Пока. Пока!   Пока...   ");
+    @DataProvider(name = "parseTextToWordListNegativeData")
+    public Object[][] createParseTextToWordListNegativeData() {
+        String text1 = "Hello, world Привет   мир! \nПривет " +
+                "  мир! ,.! Пока1. Пока2!   Пока...   ";
         List<String> expected1 = new ArrayList<>();
         expected1.add("Hello");
-        List<String> paragraphText2 = new ArrayList<>();
-        paragraphText2.add("NONE,,,,,,,.....OF");
-        paragraphText2.add(" Hello ");
+        expected1.add("world");
+        expected1.add("Привет");
+        expected1.add("мир");
+        expected1.add("Привет");
+        expected1.add("мир");
+        expected1.add("Пока1");
+        expected1.add("Пока1");
+        expected1.add("Пока2");
+        expected1.add("Пока");
+        String text2 = "нет да \n\n\n\n\t\t!`~net,,,,da";
         List<String> expected2 = new ArrayList<>();
-        expected2.add("NONE");
-        expected2.add("OF1");
-        List<String> paragraphText3 = new ArrayList<>();
-        paragraphText3.add("NONE,,,,,,,.....OF\n");
-        paragraphText3.add(" Hello ");
+        expected2.add("нет");
+        expected2.add("net");
+        expected2.add("da");
+        String text3 = "###,  !#\t\t!`~,,,,";
         List<String> expected3 = new ArrayList<>();
-        expected3.add("NONE");
+        expected3.add("");
         return new Object[][]{
-                {paragraphText1, expected1},
-                {paragraphText2, expected2},
-                {paragraphText3, expected3},
+                {text1, expected1},
+                {text2, expected2},
+                {text3, expected3}
         };
     }
 
-    @Test(dataProvider = "parseParagraphListToWordListNegativeData")
-    public void parseParagraphListToWordListNegativeTest(
-            List<String> paragraphText, List<String> expected) {
+    @Test(dataProvider = "parseTextToWordListNegativeData")
+    public void parseTextToWordListNegativeTest(
+            String text, List<String> expected) {
         try {
-            List<String> actual = stringParser.parseParagraphListToWordList(paragraphText);
+            List<String> actual = stringParser.parseTextToWordList(text);
             assertNotEquals(actual, expected);
         } catch (IncorrectDataException e) {
             fail("incorrect data");
@@ -116,9 +107,9 @@ public class StringParserTest {
     }
 
     @Test(expectedExceptions = IncorrectDataException.class)
-    public void parseParagraphsListToWordsListExceptionTest()
+    public void parseTextToWordListExceptionData()
             throws IncorrectDataException {
-        List<String> paragraphText = null;
-        stringParser.parseParagraphListToWordList(paragraphText);
+        String text = null;
+        stringParser.parseTextToWordList(text);
     }
 }

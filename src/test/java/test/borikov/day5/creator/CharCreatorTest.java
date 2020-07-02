@@ -7,6 +7,8 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,114 +27,8 @@ public class CharCreatorTest {
         charCreator = null;
     }
 
-    @DataProvider(name = "createCharArrayTextPositiveData")
-    public Object[][] createCreateCharArrayTextPositiveData() {
-        char[] defaultDataText = {'—', ' ', 'Я', ' ', 'т', 'а', 'к', ' ',
-                'о', 'ч', 'а', 'р', 'о', 'в', 'а', 'н', ' ', 'п', 'р', 'е',
-                'л', 'е', 'с', 'т', 'я', 'м', 'и', ' ', 'у', 'м', 'а', ' ',
-                'и', ' ', 'о', 'б', 'р', 'а', 'з', 'о', 'в', 'а', 'н', 'и',
-                'я', ' ', 'о', 'б', 'щ', 'е', 'с', 'т', 'в', 'а', ',', ' ',
-                'в', ' ', 'о', 'с', 'о', 'б', 'е', 'н', 'н', 'о', 'с', 'т',
-                'и', ' ', 'ж', 'е', 'н', 'с', 'к', 'о', 'г', 'о', '.', ' ',
-                'А', 'н', 'н', 'а', ' ', 'П', 'а', 'в', 'л', 'о', 'в', 'н',
-                'а', ' ', 'д', 'л', 'я', ' ', 'у', 'д', 'о', 'б', 'с', 'т',
-                'в', 'а', ' ', 'н', 'а', 'б', 'л', 'ю', 'д', 'е', 'н', 'и',
-                'я', ' ', 'п', 'р', 'и', 'с', 'о', 'е', 'д', 'и', 'н', 'и',
-                'л', 'а', ' ', 'и', 'х', ' ', 'к', ' ', 'о', 'б', 'щ', 'е',
-                'м', 'у', ' ', 'к', 'р', 'у', 'ж', 'к', 'у', '.', ' ', 'В',
-                ' ', 'э', 'т', 'о', ' ', 'в', 'р', 'е', 'м', 'я', ' ', 'в',
-                ' ', 'г', 'о', 'с', 'т', 'и', 'н', 'у', 'ю', ' ', 'в', 'о',
-                'ш', 'л', 'о', ' ', 'к', 'а', 'к', 'о', 'е', '-', 'т', 'о',
-                ' ', 'н', 'о', 'в', 'о', 'е', ' ', 'л', 'и', 'ц', 'о', '.',
-                ' ', 'H', 'e', 'r', 'e', ' ', 'y', 'o', 'u', ' ', 'c', 'a',
-                'n', ' ', 'f', 'i', 'n', 'd', ' ', 'a', 'c', 't', 'i', 'v',
-                'i', 't', 'i', 'e', 's', ' ', 't', 'o', ' ', 'p', 'r', 'a',
-                'c', 't', 'i', 's', 'e', ' ', 'y', 'o', 'u', 'r', ' ', 'r',
-                'e', 'a', 'd', 'i', 'n', 'g', ' ', 's', 'k', 'i', 'l', 'l', 's', '.'};
-        char[] validDataText = {'—', ' ', 'Я', ' ', 'к', 'а', 'к', '-', 'т',
-                'о', ' ', 'о', 'ч', 'а', 'р', 'о', '3', 'в', 'а', 'н', ' ',
-                'п', 'р', 'е', 'л', 'е', 'с', 'т', 'я', 'м', 'и', ',', ',',
-                ' ', 'у', 'м', 'а', ' ', 'и', ' ', 'о', 'б', 'р', 'а', 'з',
-                'о', 'в', 'а', 'н', 'и', 'я', ' ', 'о', 'б', 'щ', '2', 'е',
-                'с', 'т', 'в', 'а', '.', ' ', ' ', ' ', 'H', 'e', 'r', 'e',
-                ' ', 'y', 'o', 'u', ' ', 'c', 'a', 'n', ' ', 'f', 'i', 'n',
-                'd', ' ', 'a', 'c', 't', 'i', 'v', 'i', 't', 'i', 'e', 's',
-                ' ', 't', 'o', ' ', 'p', 'r', 'a', 'c', 't', 'i', 's', 'e',
-                ' ', 'y', 'o', 'u', 'r', ' ', 'r', 'e', 'a', 'd', 'i', 'n',
-                'g', ' ', 's', '3', 'k', 'i', 'l', 'l', 's', '.', ' ', 'R',
-                'e', 'a', 'd', 'i', 'n', 'g', ' ', 'w', 'i', 'l', 'l', ' ',
-                'h', 'e', 'l', 'p', ' ', 'y', 'o', 'u', ' ', 't', 'o', ' ',
-                'i', 'm', 'p', '3', '-', 'r', 'o', 'v', 'e', ' ', ' ', ' ',
-                't', 'h', 'e', ' ', 'l', 'a', 'n', 'g', 'u', 'a', 'g', 'e',
-                ' ', 'a', 'n', 'd', ' ', '-', 'b', 'u', 'i', 'l', 'd', ' ',
-                'y', 'o', 'u', 'r', ' ', 'v', 'o', 'c', 'a', '6', 'b', 'u',
-                'l', 'a', 'r', 'y', '.'};
-        return new Object[][]{
-                {"qwerty.txt", defaultDataText},
-                {"input/validData.txt", validDataText}
-        };
-    }
-
-    @Test(dataProvider = "createCharArrayTextPositiveData")
-    public void createCharArrayTextPositiveTest(String file, char[] expected) {
-        try {
-            char[] actual = charCreator.createCharArrayText(file);
-            for (int i = 0; i < actual.length; i++) {
-                System.out.print("'" + actual[i] + "', ");
-            }
-            assertEquals(actual, expected);
-        } catch (IncorrectDataException e) {
-            fail("incorrect input");
-        }
-    }
-
-    @DataProvider(name = "createCharArrayTextNegativeData")
-    public Object[][] createCreateCharArrayTextNegativeData() {
-        char[] defaultDataText = {'—', ' ', 'Я', ' ', 'т', 'а', 'к',
-                ' ', 'о', 'ч', 'а', 'р', 'о', 'в', 'а', 'н', ' ', 'п',
-                'р', 'е', 'л', 'е', 'с', 'т', 'я', 'м', 'и', ' ', 'у',
-                'м', 'а', ' ', 'и', ' ', 'о', 'б', 'р', 'а', 'з', 'о',
-                'в', 'а', 'н', 'и', 'я', ' ', 'о', 'б', 'щ', 'е', 'с',
-                'т', 'в', 'а', ',', ' ', 'в', ' ', 'о', 'с', 'о', 'б',
-                'е', 'н', 'н', 'о', 'с', 'т', 'и', ' ', 'ж', 'е', 'н',
-                'с', 'к', 'о', 'г', 'о', '.', ' ', 'А', 'н', 'н', 'а',
-                ' ', 'П', 'а', 'в', 'л', 'о', 'в', 'н', 'а', ' ', 'д',
-                'т', 'и', 'н', 'i', 'n', 'g', ' ', 's', 'k', 'i', 'l',
-                'l', 's', '.'};
-        char[] validDataText = {};
-        return new Object[][]{
-                {"qwerty.txt", defaultDataText},
-                {"input/validData.txt", validDataText}
-        };
-    }
-
-    @Test(dataProvider = "createCharArrayTextNegativeData")
-    public void createCharArrayTextNegativeTest(String file, char[] expected) {
-        try {
-            char[] actual = charCreator.createCharArrayText(file);
-            assertNotEquals(actual, expected);
-        } catch (IncorrectDataException e) {
-            fail("incorrect input");
-        }
-    }
-
-    @DataProvider(name = "createCharArrayExceptionData")
-    public Object[][] createCreateStringTextExceptionData() {
-        return new Object[][]{
-                {null},
-                {"input/invalidData.txt"},
-        };
-    }
-
-    @Test(dataProvider = "createCharArrayExceptionData",
-            expectedExceptions = IncorrectDataException.class)
-    public void createCharArrayTextExceptionTest(String file)
-            throws IncorrectDataException {
-        charCreator.createCharArrayText(file);
-    }
-
-    @DataProvider(name = "createWordListTextPositiveData")
-    public Object[][] createCreateWordListTextPositiveData() {
+    @DataProvider(name = "createWordListTextFilePositiveData")
+    public Object[][] createCreateWordListTextFilePositiveData() {
         List<char[]> defaultDataText = new ArrayList<>();
         defaultDataText.add(new char[]{'Я'});
         defaultDataText.add(new char[]{'т', 'а', 'к'});
@@ -148,28 +44,6 @@ public class CharCreatorTest {
         defaultDataText.add(new char[]{'о', 'с', 'о', 'б', 'е', 'н', 'н',
                 'о', 'с', 'т', 'и'});
         defaultDataText.add(new char[]{'ж', 'е', 'н', 'с', 'к', 'о', 'г', 'о'});
-        defaultDataText.add(new char[]{'А', 'н', 'н', 'а'});
-        defaultDataText.add(new char[]{'П', 'а', 'в', 'л', 'о', 'в', 'н', 'а'});
-        defaultDataText.add(new char[]{'д', 'л', 'я'});
-        defaultDataText.add(new char[]{'у', 'д', 'о', 'б', 'с', 'т', 'в', 'а'});
-        defaultDataText.add(new char[]{'н', 'а', 'б', 'л', 'ю', 'д', 'е',
-                'н', 'и', 'я'});
-        defaultDataText.add(new char[]{'п', 'р', 'и', 'с', 'о', 'е', 'д',
-                'и', 'н', 'и', 'л', 'а'});
-        defaultDataText.add(new char[]{'и', 'х'});
-        defaultDataText.add(new char[]{'к'});
-        defaultDataText.add(new char[]{'о', 'б', 'щ', 'е', 'м', 'у'});
-        defaultDataText.add(new char[]{'к', 'р', 'у', 'ж', 'к', 'у'});
-        defaultDataText.add(new char[]{'В'});
-        defaultDataText.add(new char[]{'э', 'т', 'о'});
-        defaultDataText.add(new char[]{'в', 'р', 'е', 'м', 'я'});
-        defaultDataText.add(new char[]{'в'});
-        defaultDataText.add(new char[]{'г', 'о', 'с', 'т', 'и', 'н', 'у', 'ю'});
-        defaultDataText.add(new char[]{'в', 'о', 'ш', 'л', 'о'});
-        defaultDataText.add(new char[]{'к', 'а', 'к', 'о', 'е'});
-        defaultDataText.add(new char[]{'т', 'о'});
-        defaultDataText.add(new char[]{'н', 'о', 'в', 'о', 'е'});
-        defaultDataText.add(new char[]{'л', 'и', 'ц', 'о'});
         defaultDataText.add(new char[]{'H', 'e', 'r', 'e'});
         defaultDataText.add(new char[]{'y', 'o', 'u'});
         defaultDataText.add(new char[]{'c', 'a', 'n'});
@@ -193,17 +67,6 @@ public class CharCreatorTest {
         validDataText.add(new char[]{'о', 'б', 'р', 'а', 'з', 'о', 'в', 'а',
                 'н', 'и', 'я'});
         validDataText.add(new char[]{'о', 'б', 'щ', '2', 'е', 'с', 'т', 'в', 'а'});
-        validDataText.add(new char[]{'H', 'e', 'r', 'e'});
-        validDataText.add(new char[]{'y', 'o', 'u'});
-        validDataText.add(new char[]{'c', 'a', 'n'});
-        validDataText.add(new char[]{'f', 'i', 'n', 'd'});
-        validDataText.add(new char[]{'a', 'c', 't', 'i', 'v', 'i', 't', 'i',
-                'e', 's'});
-        validDataText.add(new char[]{'t', 'o'});
-        validDataText.add(new char[]{'p', 'r', 'a', 'c', 't', 'i', 's', 'e'});
-        validDataText.add(new char[]{'y', 'o', 'u', 'r'});
-        validDataText.add(new char[]{'r', 'e', 'a', 'd', 'i', 'n', 'g'});
-        validDataText.add(new char[]{'s', '3', 'k', 'i', 'l', 'l', 's'});
         validDataText.add(new char[]{'R', 'e', 'a', 'd', 'i', 'n', 'g'});
         validDataText.add(new char[]{'w', 'i', 'l', 'l'});
         validDataText.add(new char[]{'h', 'e', 'l', 'p'});
@@ -224,10 +87,11 @@ public class CharCreatorTest {
         };
     }
 
-    @Test(dataProvider = "createWordListTextPositiveData")
-    public void createWordListTextPositiveTest(String file, List<char[]> expected) {
+    @Test(dataProvider = "createWordListTextFilePositiveData")
+    public void createWordListTextFilePositiveTest(String fileName,
+                                                   List<char[]> expected) {
         try {
-            List<char[]> actual = charCreator.createWordListText(file);
+            List<char[]> actual = charCreator.createWordListTextFile(fileName);
             boolean result = equalsListCharArray(actual, expected);
             assertTrue(result);
         } catch (IncorrectDataException e) {
@@ -235,8 +99,8 @@ public class CharCreatorTest {
         }
     }
 
-    @DataProvider(name = "createWordListTextNegativeData")
-    public Object[][] createCreateWordListTextNegativeData() {
+    @DataProvider(name = "createWordListTextFileNegativeData")
+    public Object[][] createCreateWordListTextFileNegativeData() {
         List<char[]> defaultDataText = new ArrayList<>();
         defaultDataText.add(new char[]{' '});
         defaultDataText.add(new char[]{'т', 'а', 'к'});
@@ -253,10 +117,11 @@ public class CharCreatorTest {
         };
     }
 
-    @Test(dataProvider = "createWordListTextNegativeData")
-    public void createWordListTextNegativeTest(String file, List<char[]> expected) {
+    @Test(dataProvider = "createWordListTextFileNegativeData")
+    public void createWordListTextFileNegativeTest(String fileName,
+                                                   List<char[]> expected) {
         try {
-            List<char[]> actual = charCreator.createWordListText(file);
+            List<char[]> actual = charCreator.createWordListTextFile(fileName);
             boolean result = equalsListCharArray(actual, expected);
             assertFalse(result);
         } catch (IncorrectDataException e) {
@@ -264,24 +129,117 @@ public class CharCreatorTest {
         }
     }
 
-    @Test(dataProvider = "createCharArrayExceptionData",
-            expectedExceptions = IncorrectDataException.class)
-    public void createWordListTextExceptionTest(String file)
+    @Test(expectedExceptions = IncorrectDataException.class)
+    public void createWordListTextExceptionTest()
             throws IncorrectDataException {
-        charCreator.createCharArrayText(file);
+        String fileName = null;
+        charCreator.createWordListTextFile(fileName);
     }
 
-    private boolean equalsListCharArray(
-            List<char[]> firstCharList, List<char[]> secondCharList) {
+    @DataProvider(name = "createWordListTextConsolePositiveData")
+    public Object[][] createCreateWordListTextConsolePositiveData() {
+        String text1 = "Hello, world Привет   мир! Привет  " +
+                " мир! ,.! Пока1. Пока2!   Пока...   ";
+        List<char[]> expected1 = new ArrayList<>();
+        expected1.add(new char[]{'H', 'e', 'l', 'l', 'o'});
+        expected1.add(new char[]{'w', 'o', 'r', 'l', 'd'});
+        expected1.add(new char[]{'П', 'р', 'и', 'в', 'е', 'т'});
+        expected1.add(new char[]{'м', 'и', 'р'});
+        expected1.add(new char[]{'П', 'р', 'и', 'в', 'е', 'т'});
+        expected1.add(new char[]{'м', 'и', 'р'});
+        expected1.add(new char[]{'П', 'о', 'к', 'а', '1'});
+        expected1.add(new char[]{'П', 'о', 'к', 'а', '2'});
+        expected1.add(new char[]{'П', 'о', 'к', 'а'});
+        String text2 = "нет да \t\t!`~net,,,,da";
+        List<char[]> expected2 = new ArrayList<>();
+        expected2.add(new char[]{'н', 'е', 'т'});
+        expected2.add(new char[]{'д', 'а'});
+        expected2.add(new char[]{'n', 'e', 't'});
+        expected2.add(new char[]{'d', 'a'});
+        String text3 = "###,  !#\t\t!`~,,,,";
+        List<char[]> expected3 = new ArrayList<>();
+        return new Object[][]{
+                {text1, expected1},
+                {text2, expected2},
+                {text3, expected3}
+        };
+    }
+
+    @Test(dataProvider = "createWordListTextConsolePositiveData")
+    public void createWordListTextConsolePositiveTest(String data,
+                                                      List<char[]> expected) {
+        try {
+            InputStream inputData = new ByteArrayInputStream(data.getBytes());
+            List<char[]> actual = charCreator.createWordListTextConsole(inputData);
+            boolean result = equalsListCharArray(actual, expected);
+            assertTrue(result);
+        } catch (IncorrectDataException e) {
+            fail("incorrect input");
+        }
+    }
+
+    @DataProvider(name = "createWordListTextConsoleNegativeData")
+    public Object[][] createCreateWordListTextConsoleNegativeData() {
+        String text1 = "Hello, world Привет   мир! \nПривет " +
+                "  мир! ,.! Пока1. Пока2!   Пока...   ";
+        List<char[]> expected1 = new ArrayList<>();
+        expected1.add(new char[]{'H', 'e', 'l', 'l', 'o'});
+        expected1.add(new char[]{'w', 'o', 'r', 'l', 'd'});
+        expected1.add(new char[]{'П', 'р', 'и', 'в', 'е', ' '});
+        expected1.add(new char[]{'м', 'и', 'р'});
+        expected1.add(new char[]{'П', 'р', 'и', 'в', 'е', 'т'});
+        expected1.add(new char[]{'м', 'и', 'р'});
+        expected1.add(new char[]{'П', 'о', 'к', 'а', '1'});
+        expected1.add(new char[]{'П', 'о', 'к', 'а', '2'});
+        expected1.add(new char[]{'П', 'о', 'к', 'а'});
+        String text2 = "нет да \n\n\n\n\t\t!`~net,,,,da";
+        List<char[]> expected2 = new ArrayList<>();
+        expected2.add(new char[]{'н', 'е', 'т'});
+        expected2.add(new char[]{'д', 'а'});
+        expected2.add(new char[]{'n', 'e', 't'});
+        String text3 = "###,  !#\t\t!`~,,,,";
+        List<char[]> expected3 = new ArrayList<>();
+        expected3.add(new char[]{});
+        return new Object[][]{
+                {text1, expected1},
+                {text2, expected2},
+                {text3, expected3}
+        };
+    }
+
+    @Test(dataProvider = "createWordListTextConsoleNegativeData")
+    public void createWordListTextConsoleNegativeTest(String data,
+                                                      List<char[]> expected) {
+        try {
+            InputStream inputData = new ByteArrayInputStream(data.getBytes());
+            List<char[]> actual = charCreator.createWordListTextConsole(inputData);
+            boolean result = equalsListCharArray(actual, expected);
+            assertFalse(result);
+        } catch (IncorrectDataException e) {
+            fail("incorrect input");
+        }
+    }
+
+    @Test(expectedExceptions = IncorrectDataException.class)
+    public void createWordListTextConsoleExceptionTesxt()
+            throws IncorrectDataException {
+        InputStream inputData = null;
+        charCreator.createWordListTextConsole(inputData);
+    }
+
+    private boolean equalsListCharArray(List<char[]> firstCharList,
+                                        List<char[]> secondCharList) {
         boolean result = true;
         if (firstCharList == null || secondCharList == null
-                || firstCharList.size() != secondCharList.size()) {
+                | firstCharList.size() != secondCharList.size()) {
             result = false;
         } else {
             for (int i = 0; i < firstCharList.size(); i++) {
+                if (!result) {
+                    break;
+                }
                 if (firstCharList.get(i).length != secondCharList.get(i).length) {
                     result = false;
-                    break;
                 } else {
                     for (int j = 0; j < firstCharList.get(i).length; j++) {
                         if (firstCharList.get(i)[j] != secondCharList.get(i)[j]) {

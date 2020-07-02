@@ -6,19 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StringParser {
-    private static final String SPECIAL_SYMBOLS = "\\p{Punct}+|\\s+|—";
+    private static final String SPECIAL_SYMBOLS = "[^\\p{L}\\d]";
 
-    public List<String> parseParagraphListToWordList(List<String> paragraphText) throws IncorrectDataException {
-        if (paragraphText == null) {
+    public List<String> parseTextToWordList(String text) throws IncorrectDataException {
+        if (text == null) {
             throw new IncorrectDataException();
         }
         List<String> wordText = new ArrayList<>();
-        for (String paragraph : paragraphText) {
-            String[] wordData = paragraph.split(SPECIAL_SYMBOLS);
-            for (String word : wordData) {
-                if (!word.equals("")) {
-                    wordText.add(word);
-                }
+        String[] wordData = text.split(SPECIAL_SYMBOLS);
+        for (String word : wordData) {
+            if (!word.equals("")) {
+                wordText.add(word);
             }
         }
         return wordText;

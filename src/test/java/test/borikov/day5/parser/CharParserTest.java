@@ -25,50 +25,40 @@ public class CharParserTest {
         charParser = null;
     }
 
-    @DataProvider(name = "parseParagraphListToWordCharListPositiveData")
-    public Object[][] createParseParagraphListToWordCharListPositiveData() {
-        List<String> paragraphText1 = new ArrayList<>();
-        paragraphText1.add("Hello, world");
-        paragraphText1.add("Привет   мир!");
-        paragraphText1.add("      ");
-        paragraphText1.add("   Пока1. Пока2!   Пока...   ");
+    @DataProvider(name = "parseTextToWordCharListPositiveData")
+    public Object[][] createParseTextToWordCharListPositiveData() {
+        String text1 = "Hello, world Привет   мир! \nПривет  " +
+                " мир! ,.! Пока1. Пока2!   Пока...   ";
         List<char[]> expected1 = new ArrayList<>();
         expected1.add(new char[]{'H', 'e', 'l', 'l', 'o'});
         expected1.add(new char[]{'w', 'o', 'r', 'l', 'd'});
         expected1.add(new char[]{'П', 'р', 'и', 'в', 'е', 'т'});
         expected1.add(new char[]{'м', 'и', 'р'});
+        expected1.add(new char[]{'П', 'р', 'и', 'в', 'е', 'т'});
+        expected1.add(new char[]{'м', 'и', 'р'});
         expected1.add(new char[]{'П', 'о', 'к', 'а', '1'});
         expected1.add(new char[]{'П', 'о', 'к', 'а', '2'});
         expected1.add(new char[]{'П', 'о', 'к', 'а'});
-        List<String> paragraphText2 = new ArrayList<>();
-        paragraphText2.add("NONE,,,,,,,.....OF");
-        paragraphText2.add(" Hello ");
+        String text2 = "нет да \n\n\n\n\t\t!`~net,,,,da";
         List<char[]> expected2 = new ArrayList<>();
-        expected2.add(new char[]{'N', 'O', 'N', 'E'});
-        expected2.add(new char[]{'O', 'F'});
-        ;
-        expected2.add(new char[]{'H', 'e', 'l', 'l', 'o'});
-        List<String> paragraphText3 = new ArrayList<>();
-        paragraphText3.add("ктонибудь");
-        paragraphText3.add("NONE,,,,,,,.....OF\n");
-        paragraphText3.add(" Hello ");
+        expected2.add(new char[]{'н', 'е', 'т'});
+        expected2.add(new char[]{'д', 'а'});
+        expected2.add(new char[]{'n', 'e', 't'});
+        expected2.add(new char[]{'d', 'a'});
+        String text3 = "###,  !#\t\t!`~,,,,";
         List<char[]> expected3 = new ArrayList<>();
-        expected3.add(new char[]{'к', 'т', 'о', 'н', 'и', 'б', 'у', 'д', 'ь'});
-        expected3.add(new char[]{'N', 'O', 'N', 'E'});
-        expected3.add(new char[]{'O', 'F'});
-        expected3.add(new char[]{'H', 'e', 'l', 'l', 'o'});
         return new Object[][]{
-                {paragraphText1, expected1},
-                {paragraphText2, expected2},
-                {paragraphText3, expected3},
+                {text1, expected1},
+                {text2, expected2},
+                {text3, expected3}
         };
     }
 
-    @Test(dataProvider = "parseParagraphListToWordCharListPositiveData")
-    public void parseParagraphListToWordCharListPositiveTest(
-            List<String> paragraphText, List<char[]> expected) {
+    @Test(dataProvider = "parseTextToWordCharListPositiveData")
+    public void parseTextToWordCharListPositiveTest(
+            String text, List<char[]> expected) {
         try {
-            List<char[]> actual = charParser.parseParagraphListToWordCharList(paragraphText);
+            List<char[]> actual = charParser.parseTextToWordCharList(text);
             boolean result = equalsListCharArray(actual, expected);
             assertTrue(result);
         } catch (IncorrectDataException e) {
@@ -76,49 +66,40 @@ public class CharParserTest {
         }
     }
 
-    @DataProvider(name = "parseParagraphListToWordCharLisNegativeData")
-    public Object[][] createParseParagraphListToWordCharListNegativeData() {
-        List<String> paragraphText1 = new ArrayList<>();
-        paragraphText1.add("Hello, world");
-        paragraphText1.add("Привет   мир!");
-        paragraphText1.add("      ");
-        paragraphText1.add("   Пока1. Пока2!   Пока...   ");
+    @DataProvider(name = "parseTextToWordCharListNegativeData")
+    public Object[][] createParseTextToWordCharListNegativeData() {
+        String text1 = "Hello, world Привет   мир! \nПривет " +
+                "  мир! ,.! Пока1. Пока2!   Пока...   ";
         List<char[]> expected1 = new ArrayList<>();
-        expected1.add(new char[]{'H', ' ', 'l', 'l', 'o'});
+        expected1.add(new char[]{'H', 'e', 'l', 'l', 'o'});
         expected1.add(new char[]{'w', 'o', 'r', 'l', 'd'});
+        expected1.add(new char[]{'П', 'р', 'и', 'в', 'е', ' '});
+        expected1.add(new char[]{'м', 'и', 'р'});
         expected1.add(new char[]{'П', 'р', 'и', 'в', 'е', 'т'});
         expected1.add(new char[]{'м', 'и', 'р'});
         expected1.add(new char[]{'П', 'о', 'к', 'а', '1'});
         expected1.add(new char[]{'П', 'о', 'к', 'а', '2'});
         expected1.add(new char[]{'П', 'о', 'к', 'а'});
-        List<String> paragraphText2 = new ArrayList<>();
-        paragraphText2.add("NONE,,,,,,,.....OF");
-        paragraphText2.add(" Hello ");
+        String text2 = "нет да \n\n\n\n\t\t!`~net,,,,da";
         List<char[]> expected2 = new ArrayList<>();
-        expected2.add(new char[]{'N', 'O', 'N', 'E', ' '});
-        expected2.add(new char[]{'O', 'F'});
-        ;
-        expected2.add(new char[]{'H', 'e', 'l', 'l', 'o'});
-        List<String> paragraphText3 = new ArrayList<>();
-        paragraphText3.add("ктонибудь");
-        paragraphText3.add("NONE,,,,,,,.....OF\n");
-        paragraphText3.add(" Hello ");
+        expected2.add(new char[]{'н', 'е', 'т'});
+        expected2.add(new char[]{'д', 'а'});
+        expected2.add(new char[]{'n', 'e', 't'});
+        String text3 = "###,  !#\t\t!`~,,,,";
         List<char[]> expected3 = new ArrayList<>();
-        expected3.add(new char[]{'к', 'т', 'о', 'н', 'и', 'б', 'у', 'д', 'ь'});
-        expected3.add(new char[]{'N', 'O', 'N', 'E'});
-        expected3.add(new char[]{'H', 'e', 'l', 'l', 'o'});
+        expected3.add(new char[]{});
         return new Object[][]{
-                {paragraphText1, expected1},
-                {paragraphText2, expected2},
-                {paragraphText3, expected3},
+                {text1, expected1},
+                {text2, expected2},
+                {text3, expected3}
         };
     }
 
-    @Test(dataProvider = "parseParagraphListToWordCharLisNegativeData")
-    public void parseParagraphListToWordCharListNegativeTest(
-            List<String> paragraphText, List<char[]> expected) {
+    @Test(dataProvider = "parseTextToWordCharListNegativeData")
+    public void parseTextToWordCharListNegativeTest(
+            String text, List<char[]> expected) {
         try {
-            List<char[]> actual = charParser.parseParagraphListToWordCharList(paragraphText);
+            List<char[]> actual = charParser.parseTextToWordCharList(text);
             boolean result = equalsListCharArray(actual, expected);
             assertFalse(result);
         } catch (IncorrectDataException e) {
@@ -129,101 +110,23 @@ public class CharParserTest {
     @Test(expectedExceptions = IncorrectDataException.class)
     public void parseParagraphListToWordCharListExceptionTest()
             throws IncorrectDataException {
-        List<String> paragraphText = null;
-        charParser.parseParagraphListToWordCharList(paragraphText);
+        String text = null;
+        charParser.parseTextToWordCharList(text);
     }
 
-
-    @DataProvider(name = "parseListToCharArrayPositiveData")
-    public Object[][] createParseListToCharArrayPositiveData() {
-        List<String> paragraphText1 = new ArrayList<>();
-        paragraphText1.add("Hello, world");
-        paragraphText1.add("Привет   мир!");
-        char[] expected1 = new char[]{'H', 'e', 'l', 'l', 'o', ',', ' ',
-                'w', 'o', 'r', 'l', 'd', ' ', 'П', 'р', 'и', 'в', 'е', 'т',
-                ' ', ' ', ' ', 'м', 'и', 'р', '!'};
-        List<String> paragraphText2 = new ArrayList<>();
-        paragraphText2.add("NONE,,..OF");
-        paragraphText2.add(" Hello ");
-        char[] expected2 = new char[]{'N', 'O', 'N', 'E', ',', ',', '.', '.',
-                'O', 'F', ' ', ' ', 'H', 'e', 'l', 'l', 'o', ' '};
-        List<String> paragraphText3 = new ArrayList<>();
-        paragraphText3.add("ктонибудь");
-        paragraphText3.add("");
-        paragraphText3.add("   ");
-        char[] expected3 = new char[]{'к', 'т', 'о', 'н', 'и', 'б', 'у', 'д',
-                'ь', ' ', ' ', ' ', ' ', ' '};
-        return new Object[][]{
-                {paragraphText1, expected1},
-                {paragraphText2, expected2},
-                {paragraphText3, expected3},
-        };
-    }
-
-    @Test(dataProvider = "parseListToCharArrayPositiveData")
-    public void parseListToCharArrayPositiveTest(
-            List<String> paragraphText, char[] expected) {
-        try {
-            char[] actual = charParser.parseListToCharArray(paragraphText);
-            assertEquals(actual, expected);
-        } catch (IncorrectDataException e) {
-            fail("incorrect data");
-        }
-    }
-
-    @DataProvider(name = "parseListToCharArrayNegativeData")
-    public Object[][] createParseListToCharArrayNegativeData() {
-        List<String> paragraphText1 = new ArrayList<>();
-        paragraphText1.add("Hello, world");
-        paragraphText1.add("Привет   мир!");
-        char[] expected1 = new char[]{'H', 'e', 'l', 'o', ',', ' ',
-                'w', 'o', 'r', 'l', 'd', ' ', 'П', 'р', 'и', 'в', 'е',
-                'т', ' ', ' ', ' ', 'м', 'и', 'р', '!'};
-        List<String> paragraphText2 = new ArrayList<>();
-        paragraphText2.add("NONE,,..OF");
-        paragraphText2.add(" Hello ");
-        char[] expected2 = new char[]{'N', 'O', 'N', 'E', ',', ',', '.',
-                '.', 'O', 'F', 'b', ' ', 'H', 'e', 'l', 'l', 'o', ' '};
-        List<String> paragraphText3 = new ArrayList<>();
-        paragraphText3.add("ктонибудь");
-        paragraphText3.add("");
-        paragraphText3.add("   ");
-        char[] expected3 = new char[]{'к', 'т', 'о', 'н', 'и', 'б', 'у',
-                'д', 'ь', ' ', ' ', ' ', ' '};
-        return new Object[][]{
-                {paragraphText1, expected1},
-                {paragraphText2, expected2},
-                {paragraphText3, expected3},
-        };
-    }
-
-    @Test(dataProvider = "parseListToCharArrayNegativeData")
-    public void parseListToCharArrayNegativeTest(
-            List<String> paragraphText, char[] expected) {
-        try {
-            char[] actual = charParser.parseListToCharArray(paragraphText);
-            assertNotEquals(actual, expected);
-        } catch (IncorrectDataException e) {
-            fail("incorrect data");
-        }
-    }
-
-    @Test(expectedExceptions = IncorrectDataException.class)
-    public void parseListToCharArrayExceptionTest() throws IncorrectDataException {
-        List<String> paragraphText = null;
-        charParser.parseListToCharArray(paragraphText);
-    }
-
-    private boolean equalsListCharArray(List<char[]> firstCharList, List<char[]> secondCharList) {
+    private boolean equalsListCharArray(List<char[]> firstCharList,
+                                        List<char[]> secondCharList) {
         boolean result = true;
         if (firstCharList == null || secondCharList == null
                 | firstCharList.size() != secondCharList.size()) {
             result = false;
         } else {
             for (int i = 0; i < firstCharList.size(); i++) {
+                if (!result) {
+                    break;
+                }
                 if (firstCharList.get(i).length != secondCharList.get(i).length) {
                     result = false;
-                    break;
                 } else {
                     for (int j = 0; j < firstCharList.get(i).length; j++) {
                         if (firstCharList.get(i)[j] != secondCharList.get(i)[j]) {

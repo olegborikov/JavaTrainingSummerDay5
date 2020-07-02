@@ -2,38 +2,34 @@ package com.borikov.day5.creator;
 
 import com.borikov.day5.exception.IncorrectDataException;
 import com.borikov.day5.parser.CharParser;
+import com.borikov.day5.reader.TextConsoleReader;
 import com.borikov.day5.reader.TextFileReader;
 
+import java.io.InputStream;
 import java.util.List;
 
 public class CharCreator {
-    private static final String SPACE = " ";
-
-    public char[] createCharArrayText(String file) throws IncorrectDataException {
-        if (file == null) {
+    public List<char[]> createWordListTextFile(String fileName)
+            throws IncorrectDataException {
+        if (fileName == null) {
             throw new IncorrectDataException();
         }
         TextFileReader textFileReader = new TextFileReader();
-        List<String> paragraphText = textFileReader.readText(file);
-        if (paragraphText.isEmpty()) {
-            throw new IncorrectDataException();
-        }
+        String text = textFileReader.readText(fileName);
         CharParser charParser = new CharParser();
-        char[] text = charParser.parseListToCharArray(paragraphText);
-        return text;
+        List<char[]> wordText = charParser.parseTextToWordCharList(text);
+        return wordText;
     }
 
-    public List<char[]> createWordListText(String file) throws IncorrectDataException {
-        if (file == null) {
+    public List<char[]> createWordListTextConsole(InputStream input)
+            throws IncorrectDataException {
+        if (input == null) {
             throw new IncorrectDataException();
         }
-        TextFileReader textFileReader = new TextFileReader();
-        List<String> paragraphText = textFileReader.readText(file);
-        if (paragraphText.isEmpty()) {
-            throw new IncorrectDataException();
-        }
+        TextConsoleReader textConsoleReader = new TextConsoleReader();
+        String text = textConsoleReader.readText(input);
         CharParser charParser = new CharParser();
-        List<char[]> wordText = charParser.parseParagraphListToWordCharList(paragraphText);
+        List<char[]> wordText = charParser.parseTextToWordCharList(text);
         return wordText;
     }
 }
