@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class StringDeleteTextServiceImpl implements StringDeleteText {
     private static final Pattern VOWEL_LETTERS = Pattern.compile("\\b[аоиеёэыуюяАОИЕЁЗЫУЮЯaeiouAEIOU]");
-    private static final String SPECIAL_SYMBOLS = "\\p{Punct}|—";
+    private static final String SPECIAL_SYMBOLS = "\\p{Punct}|—|\\d";
     private static final String SPACE = " ";
 
     @Override
@@ -16,8 +16,7 @@ public class StringDeleteTextServiceImpl implements StringDeleteText {
         if (text == null) {
             throw new IncorrectDataException();
         }
-        String formattedText = text.replaceAll(SPECIAL_SYMBOLS, SPACE);
-        return formattedText;
+        return text.replaceAll(SPECIAL_SYMBOLS, SPACE);
     }
 
     @Override

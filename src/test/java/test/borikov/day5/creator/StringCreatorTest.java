@@ -27,13 +27,17 @@ public class StringCreatorTest {
 
     @DataProvider(name = "createStringTextPositiveData")
     public Object[][] createCreateStringTextPositiveData() {
-        String defaultDataText = "— Я так очарован прелестями ума и образования общества, в особенности женского. " +
-                "Анна Павловна для удобства наблюдения присоединила их к общему кружку. " +
+        String defaultDataText = "— Я так очарован прелестями ума" +
+                " и образования общества, в особенности женского. " +
+                "Анна Павловна для удобства наблюдения присоединила " +
+                "их к общему кружку. " +
                 "В это время в гостиную вошло какое-то новое лицо. " +
                 "Here you can find activities to practise your reading skills.";
-        String validDataText = "— Я как-то очаро3ван прелестями,, ума и образования общ2ества. " +
+        String validDataText = "— Я как-то очаро3ван прелестями," +
+                ", ума и образования общ2ества. " +
                 "  Here you can find activities to practise your reading s3kills. " +
-                "Reading will help you to imp3-rove   the language and -build your voca6bulary.";
+                "Reading will help you to imp3-rove  " +
+                " the language and -build your voca6bulary.";
         return new Object[][]{
                 {"qwerty.txt", defaultDataText},
                 {"input/validData.txt", validDataText}
@@ -52,10 +56,13 @@ public class StringCreatorTest {
 
     @DataProvider(name = "createStringTextNegativeData")
     public Object[][] createCreateStringTextNegativeData() {
-        String defaultDataText = "— Я так очарован прелестями ума и образования общества, в особенности женского.";
-        String validDataText = "— Я как-то очаро3ван прелестями,, ума и образования общ2ества." +
+        String defaultDataText = "— Я так очарован прелестями ума и " +
+                "образования общества, в особенности женского.";
+        String validDataText = "— Я как-то очаро3ван прелестями,," +
+                " ума и образования общ2ества." +
                 "  Here you can find activities to practise your reading s3kills." +
-                "Reading will help you to imp3-rove   the language and -build your voca6bulary";
+                "Reading will help you to imp3-rove   " +
+                "the language and -build your voca6bulary";
         return new Object[][]{
                 {"qwerty.txt", defaultDataText},
                 {"input/validData.txt", validDataText}
@@ -82,7 +89,8 @@ public class StringCreatorTest {
 
     @Test(dataProvider = "createStringExceptionData",
             expectedExceptions = IncorrectDataException.class)
-    public void createStringTextExceptionTest(String file) throws IncorrectDataException {
+    public void createStringTextExceptionTest(String file)
+            throws IncorrectDataException {
         stringCreator.createStringText(file);
     }
 
@@ -213,7 +221,8 @@ public class StringCreatorTest {
 
     @Test(dataProvider = "createStringExceptionData",
             expectedExceptions = IncorrectDataException.class)
-    public void createWordListTextExceptionTest(String file) throws IncorrectDataException {
+    public void createWordListTextExceptionTest(String file)
+            throws IncorrectDataException {
         stringCreator.createWordListText(file);
     }
 }

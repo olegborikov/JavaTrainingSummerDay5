@@ -8,7 +8,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.testng.Assert.*;
@@ -28,8 +27,8 @@ public class StringDeleteTextServiceImplTest {
 
     @DataProvider(name = "deletePunctuationPositiveData")
     public Object[][] createDeletePunctuationPositiveData() {
-        String actual1 = "asd'gfdg_-";
-        String expected1 = "asd gfdg  ";
+        String actual1 = "asd'gfdg_-1";
+        String expected1 = "asd gfdg   ";
         String actual2 = "aVРукЁ~~~, ,hgf";
         String expected2 = "aVРукЁ      hgf";
         String actual3 = "—";
@@ -123,9 +122,9 @@ public class StringDeleteTextServiceImplTest {
         }
     }
 
-     @DataProvider(name = "deleteWordByLengthAndFirstLetterNegativeData")
+    @DataProvider(name = "deleteWordByLengthAndFirstLetterNegativeData")
     public Object[][] createDeleteWordByLengthAndFirstLetterNegativeData() {
-       List<String> actual1 = new ArrayList<>();
+        List<String> actual1 = new ArrayList<>();
         actual1.add("3ча");
         actual1.add("аке");
         List<String> expected1 = new ArrayList<>();

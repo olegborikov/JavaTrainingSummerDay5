@@ -20,8 +20,7 @@ public class TextFileReader {
             }
         }
         try {
-            List<String> paragraphText = Files.readAllLines(path);
-            return paragraphText;
+            return Files.readAllLines(path);
         } catch (IOException e) {
             throw new IncorrectDataException("incorrect file", e);
         }

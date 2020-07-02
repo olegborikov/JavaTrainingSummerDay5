@@ -65,7 +65,8 @@ public class CharParserTest {
     }
 
     @Test(dataProvider = "parseParagraphListToWordCharListPositiveData")
-    public void parseParagraphListToWordCharListPositiveTest(List<String> paragraphText, List<char[]> expected) {
+    public void parseParagraphListToWordCharListPositiveTest(
+            List<String> paragraphText, List<char[]> expected) {
         try {
             List<char[]> actual = charParser.parseParagraphListToWordCharList(paragraphText);
             boolean result = equalsListCharArray(actual, expected);
@@ -114,7 +115,8 @@ public class CharParserTest {
     }
 
     @Test(dataProvider = "parseParagraphListToWordCharLisNegativeData")
-    public void parseParagraphListToWordCharListNegativeTest(List<String> paragraphText, List<char[]> expected) {
+    public void parseParagraphListToWordCharListNegativeTest(
+            List<String> paragraphText, List<char[]> expected) {
         try {
             List<char[]> actual = charParser.parseParagraphListToWordCharList(paragraphText);
             boolean result = equalsListCharArray(actual, expected);
@@ -125,7 +127,8 @@ public class CharParserTest {
     }
 
     @Test(expectedExceptions = IncorrectDataException.class)
-    public void parseParagraphListToWordCharListExceptionTest() throws IncorrectDataException {
+    public void parseParagraphListToWordCharListExceptionTest()
+            throws IncorrectDataException {
         List<String> paragraphText = null;
         charParser.parseParagraphListToWordCharList(paragraphText);
     }
@@ -136,16 +139,20 @@ public class CharParserTest {
         List<String> paragraphText1 = new ArrayList<>();
         paragraphText1.add("Hello, world");
         paragraphText1.add("Привет   мир!");
-        char[] expected1 = new char[]{'H', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd', ' ', 'П', 'р', 'и', 'в', 'е', 'т', ' ', ' ', ' ', 'м', 'и', 'р', '!'};
+        char[] expected1 = new char[]{'H', 'e', 'l', 'l', 'o', ',', ' ',
+                'w', 'o', 'r', 'l', 'd', ' ', 'П', 'р', 'и', 'в', 'е', 'т',
+                ' ', ' ', ' ', 'м', 'и', 'р', '!'};
         List<String> paragraphText2 = new ArrayList<>();
         paragraphText2.add("NONE,,..OF");
         paragraphText2.add(" Hello ");
-        char[] expected2 = new char[]{'N', 'O', 'N', 'E', ',', ',', '.', '.', 'O', 'F', ' ', ' ', 'H', 'e', 'l', 'l', 'o', ' '};
+        char[] expected2 = new char[]{'N', 'O', 'N', 'E', ',', ',', '.', '.',
+                'O', 'F', ' ', ' ', 'H', 'e', 'l', 'l', 'o', ' '};
         List<String> paragraphText3 = new ArrayList<>();
         paragraphText3.add("ктонибудь");
         paragraphText3.add("");
         paragraphText3.add("   ");
-        char[] expected3 = new char[]{'к', 'т', 'о', 'н', 'и', 'б', 'у', 'д', 'ь', ' ', ' ', ' ', ' ', ' '};
+        char[] expected3 = new char[]{'к', 'т', 'о', 'н', 'и', 'б', 'у', 'д',
+                'ь', ' ', ' ', ' ', ' ', ' '};
         return new Object[][]{
                 {paragraphText1, expected1},
                 {paragraphText2, expected2},
@@ -154,7 +161,8 @@ public class CharParserTest {
     }
 
     @Test(dataProvider = "parseListToCharArrayPositiveData")
-    public void parseListToCharArrayPositiveTest(List<String> paragraphText, char[] expected) {
+    public void parseListToCharArrayPositiveTest(
+            List<String> paragraphText, char[] expected) {
         try {
             char[] actual = charParser.parseListToCharArray(paragraphText);
             assertEquals(actual, expected);
@@ -168,16 +176,20 @@ public class CharParserTest {
         List<String> paragraphText1 = new ArrayList<>();
         paragraphText1.add("Hello, world");
         paragraphText1.add("Привет   мир!");
-        char[] expected1 = new char[]{'H', 'e', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd', ' ', 'П', 'р', 'и', 'в', 'е', 'т', ' ', ' ', ' ', 'м', 'и', 'р', '!'};
+        char[] expected1 = new char[]{'H', 'e', 'l', 'o', ',', ' ',
+                'w', 'o', 'r', 'l', 'd', ' ', 'П', 'р', 'и', 'в', 'е',
+                'т', ' ', ' ', ' ', 'м', 'и', 'р', '!'};
         List<String> paragraphText2 = new ArrayList<>();
         paragraphText2.add("NONE,,..OF");
         paragraphText2.add(" Hello ");
-        char[] expected2 = new char[]{'N', 'O', 'N', 'E', ',', ',', '.', '.', 'O', 'F', 'b', ' ', 'H', 'e', 'l', 'l', 'o', ' '};
+        char[] expected2 = new char[]{'N', 'O', 'N', 'E', ',', ',', '.',
+                '.', 'O', 'F', 'b', ' ', 'H', 'e', 'l', 'l', 'o', ' '};
         List<String> paragraphText3 = new ArrayList<>();
         paragraphText3.add("ктонибудь");
         paragraphText3.add("");
         paragraphText3.add("   ");
-        char[] expected3 = new char[]{'к', 'т', 'о', 'н', 'и', 'б', 'у', 'д', 'ь',  ' ', ' ', ' ', ' '};
+        char[] expected3 = new char[]{'к', 'т', 'о', 'н', 'и', 'б', 'у',
+                'д', 'ь', ' ', ' ', ' ', ' '};
         return new Object[][]{
                 {paragraphText1, expected1},
                 {paragraphText2, expected2},
@@ -186,7 +198,8 @@ public class CharParserTest {
     }
 
     @Test(dataProvider = "parseListToCharArrayNegativeData")
-    public void parseListToCharArrayNegativeTest(List<String> paragraphText, char[] expected) {
+    public void parseListToCharArrayNegativeTest(
+            List<String> paragraphText, char[] expected) {
         try {
             char[] actual = charParser.parseListToCharArray(paragraphText);
             assertNotEquals(actual, expected);
@@ -203,7 +216,8 @@ public class CharParserTest {
 
     private boolean equalsListCharArray(List<char[]> firstCharList, List<char[]> secondCharList) {
         boolean result = true;
-        if (firstCharList == null || secondCharList == null || firstCharList.size() != secondCharList.size()) {
+        if (firstCharList == null || secondCharList == null
+                | firstCharList.size() != secondCharList.size()) {
             result = false;
         } else {
             for (int i = 0; i < firstCharList.size(); i++) {
@@ -218,7 +232,6 @@ public class CharParserTest {
                         }
                     }
                 }
-
             }
         }
         return result;

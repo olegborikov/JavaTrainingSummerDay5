@@ -34,7 +34,6 @@ public class CharParser {
             throw new IncorrectDataException();
         }
         String stringText = String.join(SPACE, paragraphText);
-        char[] text = stringText.toCharArray();
-        return text;
+        return stringText.toCharArray();
     }
 }

@@ -68,7 +68,8 @@ public class StringParserTest {
     }
 
     @Test(dataProvider = "parseParagraphListToWordListPositiveData")
-    public void parseParagraphListToWordListPositiveTest(List<String> paragraphText, List<String> expected) {
+    public void parseParagraphListToWordListPositiveTest(
+            List<String> paragraphText, List<String> expected) {
         try {
             List<String> actual = stringParser.parseParagraphListToWordList(paragraphText);
             assertEquals(actual, expected);
@@ -104,7 +105,8 @@ public class StringParserTest {
     }
 
     @Test(dataProvider = "parseParagraphListToWordListNegativeData")
-    public void parseParagraphListToWordListNegativeTest(List<String> paragraphText, List<String> expected) {
+    public void parseParagraphListToWordListNegativeTest(
+            List<String> paragraphText, List<String> expected) {
         try {
             List<String> actual = stringParser.parseParagraphListToWordList(paragraphText);
             assertNotEquals(actual, expected);
@@ -114,7 +116,8 @@ public class StringParserTest {
     }
 
     @Test(expectedExceptions = IncorrectDataException.class)
-    public void parseParagraphsListToWordsListExceptionTest() throws IncorrectDataException {
+    public void parseParagraphsListToWordsListExceptionTest()
+            throws IncorrectDataException {
         List<String> paragraphText = null;
         stringParser.parseParagraphListToWordList(paragraphText);
     }

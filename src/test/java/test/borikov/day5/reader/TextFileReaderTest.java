@@ -28,14 +28,20 @@ public class TextFileReaderTest {
     @DataProvider(name = "readTextPositiveData")
     public Object[][] createReadTextPositiveData() {
         List<String> defaultDataText = new ArrayList<>();
-        defaultDataText.add("— Я так очарован прелестями ума и образования общества, в особенности женского.");
-        defaultDataText.add("Анна Павловна для удобства наблюдения присоединила их к общему кружку.");
-        defaultDataText.add("В это время в гостиную вошло какое-то новое лицо.");
-        defaultDataText.add("Here you can find activities to practise your reading skills.");
+        defaultDataText.add("— Я так очарован прелестями ума и " +
+                "образования общества, в особенности женского.");
+        defaultDataText.add("Анна Павловна для удобства " +
+                "наблюдения присоединила их к общему кружку.");
+        defaultDataText.add("В это время в гостиную " +
+                "вошло какое-то новое лицо.");
+        defaultDataText.add("Here you can find activities" +
+                " to practise your reading skills.");
         List<String> validDataText = new ArrayList<>();
-        validDataText.add("— Я как-то очаро3ван прелестями,, ума и образования общ2ества.");
+        validDataText.add("— Я как-то очаро3ван прелестями,," +
+                " ума и образования общ2ества.");
         validDataText.add("  Here you can find activities to practise your reading s3kills.");
-        validDataText.add("Reading will help you to imp3-rove   the language and -build your voca6bulary.");
+        validDataText.add("Reading will help you to imp3-rove  " +
+                " the language and -build your voca6bulary.");
         List<String> invalidDataText = new ArrayList<>();
         return new Object[][]{
                 {null, defaultDataText},
@@ -57,11 +63,14 @@ public class TextFileReaderTest {
     @DataProvider(name = "readTextNegativeData")
     public Object[][] createReadTextNegativeData() {
         List<String> defaultDataText = new ArrayList<>();
-        defaultDataText.add("— Я так очарован прелестями ума и образования общества, в особенности женского.");
+        defaultDataText.add("— Я так очарован прелестями ума и" +
+                " образования общества, в особенности женского.");
         List<String> validDataText = new ArrayList<>();
-        validDataText.add("Reading will help you to imp3-rove   the language and -build your voca6bulary.");
+        validDataText.add("Reading will help you to imp3-rove   " +
+                "the language and -build your voca6bulary.");
         List<String> invalidDataText = new ArrayList<>();
-        invalidDataText.add("— Я так очарован прелестями ума и образования общества, в особенности женского.");
+        invalidDataText.add("— Я так очарован прелестями ума и " +
+                "образования общества, в особенности женского.");
         return new Object[][]{
                 {null, defaultDataText},
                 {"input/validData.txt", validDataText},

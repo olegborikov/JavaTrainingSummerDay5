@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class CharDeleteTextServiceImpl implements CharDeleteText {
     private static final Pattern VOWEL_LETTERS = Pattern.compile("\\b[аоиеёэыуюяАОИЕЁЗЫУЮЯaeiouAEIOU]");
-    private static final char[] SPECIAL_SYMBOLS = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~—".toCharArray();
+    private static final char[] SPECIAL_SYMBOLS = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~—0123456789".toCharArray();
 
     @Override
     public char[] deletePunctuation(char[] text) throws IncorrectDataException {
@@ -16,14 +16,14 @@ public class CharDeleteTextServiceImpl implements CharDeleteText {
             throw new IncorrectDataException();
         }
         for (int i = 0; i < text.length; i++) {
-            if (!isSymbolNotWord(text[i])) {
+            if (!isSymbolNotLetter(text[i])) {
                 text[i] = ' ';
             }
         }
         return text;
     }
 
-    private boolean isSymbolNotWord(char symbol) {
+    private boolean isSymbolNotLetter(char symbol) {
         boolean result = true;
         for (char specialSymbol : SPECIAL_SYMBOLS) {
             if (symbol == specialSymbol) {
@@ -48,8 +48,6 @@ public class CharDeleteTextServiceImpl implements CharDeleteText {
                 }
             } else {
                 if (word.length() == length && !VOWEL_LETTERS.matcher(word).find()) {
-                    System.out.println(word.toString());
-
                     wordText.remove(i);
                     i--;
                 }
