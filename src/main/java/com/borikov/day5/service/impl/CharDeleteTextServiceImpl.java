@@ -40,14 +40,16 @@ public class CharDeleteTextServiceImpl implements CharDeleteText {
             throw new IncorrectDataException();
         }
         for (int i = 0; i < wordText.size(); i++) {
-            char[] word = wordText.get(i);
+            String word = new String(wordText.get(i));
             if (isFirstLetterVowel) {
-                if (word.length == length && VOWEL_LETTERS.matcher(word.toString()).find()) {
+                if (word.length() == length && VOWEL_LETTERS.matcher(word).find()) {
                     wordText.remove(i);
                     i--;
                 }
             } else {
-                if (word.length == length && !VOWEL_LETTERS.matcher(word.toString()).find()) {
+                if (word.length() == length && !VOWEL_LETTERS.matcher(word).find()) {
+                    System.out.println(word.toString());
+
                     wordText.remove(i);
                     i--;
                 }
