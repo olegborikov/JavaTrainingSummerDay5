@@ -6,14 +6,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CharParser {
-    public List<char[]> parseStringListToCharArrayList(List<String> data) throws IncorrectDataException {
-        if (data == null || data.isEmpty()) {
+    private static final String SPECIAL_SYMBOLS = "\\p{Punct}+|\\s+|—";
+    private static final String SPACE = " ";
+
+    public List<char[]> parseParagraphListToWordCharList(List<String> paragraphText) throws IncorrectDataException {
+        if (paragraphText == null) {
             throw new IncorrectDataException();
         }
-        List<char[]> newData = new ArrayList<>();
-        for (String currentData : data) {
-            newData.add(currentData.toCharArray());
+        List<String> wordText = new ArrayList<>();
+        for (String paragraph : paragraphText) {
+            String[] wordData = paragraph.split(SPECIAL_SYMBOLS);
+            for (String word : wordData) {
+                if (!word.equals("")) {
+                    wordText.add(word);
+                }
+            }
         }
-        return newData;
+        List<char[]> wordCharText = new ArrayList<>();
+        for (String word : wordText) {
+            wordCharText.add(word.toCharArray());
+        }
+        return wordCharText;
+    }
+
+    public char[] parseListToCharArray(List<String> paragraphText) throws IncorrectDataException {
+        if (paragraphText == null) {
+            throw new IncorrectDataException();
+        }
+        String stringText = String.join(SPACE, paragraphText);
+        char[] text = stringText.toCharArray();
+        return text;
     }
 }

@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StringParser {
-    private static final String SPECIAL_SYMBOLS = "\\p{Punct}|\\s|—";
+    private static final String SPECIAL_SYMBOLS = "\\p{Punct}+|\\s+|—";
 
     public List<String> parseParagraphListToWordList(List<String> paragraphText) throws IncorrectDataException {
-        if (paragraphText == null || paragraphText.isEmpty()) {
+        if (paragraphText == null) {
             throw new IncorrectDataException();
         }
         List<String> wordText = new ArrayList<>();
@@ -22,19 +22,5 @@ public class StringParser {
             }
         }
         return wordText;
-    }
-
-    public String parseListToString(List<String> textData) throws IncorrectDataException {
-        if (textData == null || textData.isEmpty()) {
-            throw new IncorrectDataException();
-        }
-        StringBuilder text = new StringBuilder();
-        for (int i = 0; i < textData.size(); i++) {
-            text.append(textData.get(i));
-            if (i != textData.size() - 1) {
-                text.append(" ");
-            }
-        }
-        return text.toString();
     }
 }

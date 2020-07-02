@@ -1,10 +1,12 @@
 package com.borikov.day5.service;
 
+import com.borikov.day5.exception.IncorrectDataException;
+
 import java.util.List;
 
 public interface DeleteText<T> {
 
-    void deletePunctuation(T text);
+    T deletePunctuation(T text) throws IncorrectDataException;
 
-    void deleteWordByLengthAndFirstLetter(List<T> text, int length, boolean isFirstLetterVowel);
+    void deleteWordByLengthAndFirstLetter(List<T> wordText, int length, boolean isFirstLetterConsonant) throws IncorrectDataException;
 }

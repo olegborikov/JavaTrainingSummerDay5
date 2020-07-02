@@ -172,7 +172,7 @@ public class StringCreatorTest {
     @Test(dataProvider = "createWordListTextPositiveData")
     public void createWordListTextPositiveTest(String file, List<String> expected) {
         try {
-            List<String> actual = stringCreator.createWordListText(file);System.out.println(actual);
+            List<String> actual = stringCreator.createWordListText(file);
             assertEquals(actual, expected);
 
         } catch (IncorrectDataException e) {
@@ -181,7 +181,7 @@ public class StringCreatorTest {
     }
 
     @DataProvider(name = "createWordListTextNegativeData")
-    public Object[][] createCreateWordListTextNegativeData() {
+    public Object[][] createCreateWordListTextNegativea() {
         List<String> defaultDataText = new ArrayList<>();
         defaultDataText.add("Я");
         defaultDataText.add("так");

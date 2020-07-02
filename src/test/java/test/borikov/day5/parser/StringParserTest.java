@@ -31,11 +31,11 @@ public class StringParserTest {
 
     @DataProvider(name = "parseParagraphListToWordListPositiveData")
     public Object[][] createParseParagraphListToWordListPositiveData() {
-        List<String> data1 = new ArrayList<>();
-        data1.add("Hello, world");
-        data1.add("Привет   мир!");
-        data1.add("      ");
-        data1.add("   Пока1. Пока2!   Пока...   ");
+        List<String> paragraphText1 = new ArrayList<>();
+        paragraphText1.add("Hello, world");
+        paragraphText1.add("Привет   мир!");
+        paragraphText1.add("      ");
+        paragraphText1.add("   Пока1. Пока2!   Пока...   ");
         List<String> expected1 = new ArrayList<>();
         expected1.add("Hello");
         expected1.add("world");
@@ -44,34 +44,33 @@ public class StringParserTest {
         expected1.add("Пока1");
         expected1.add("Пока2");
         expected1.add("Пока");
-        List<String> data2 = new ArrayList<String>();
-        data2.add("NONE,,,,,,,.....OF");
-        data2.add(" Hello ");
+        List<String> paragraphText2 = new ArrayList<String>();
+        paragraphText2.add("NONE,,,,,,,.....OF");
+        paragraphText2.add(" Hello ");
         List<String> expected2 = new ArrayList<>();
         expected2.add("NONE");
         expected2.add("OF");
         expected2.add("Hello");
-        List<String> data3 = new ArrayList<>();
-        data3.add("ктонибудь");
-        data3.add("NONE,,,,,,,.....OF\n");
-        data3.add(" Hello ");
+        List<String> paragraphText3 = new ArrayList<>();
+        paragraphText3.add("ктонибудь");
+        paragraphText3.add("NONE,,,,,,,.....OF\n");
+        paragraphText3.add(" Hello ");
         List<String> expected3 = new ArrayList<>();
         expected3.add("ктонибудь");
         expected3.add("NONE");
         expected3.add("OF");
         expected3.add("Hello");
         return new Object[][]{
-                {data1, expected1},
-                {data2, expected2},
-                {data3, expected3},
+                {paragraphText1, expected1},
+                {paragraphText2, expected2},
+                {paragraphText3, expected3},
         };
     }
 
     @Test(dataProvider = "parseParagraphListToWordListPositiveData")
-    public void parseParagraphListToWordListPositiveTest(List<String> data, List<String> expected) {
+    public void parseParagraphListToWordListPositiveTest(List<String> paragraphText, List<String> expected) {
         try {
-            List<String> actual = stringParser.parseParagraphListToWordList(data);
-            System.out.println(actual);
+            List<String> actual = stringParser.parseParagraphListToWordList(paragraphText);
             assertEquals(actual, expected);
         } catch (IncorrectDataException e) {
             fail("incorrect data");
@@ -80,127 +79,43 @@ public class StringParserTest {
 
     @DataProvider(name = "parseParagraphListToWordListNegativeData")
     public Object[][] createParseParagraphListToWordListNegativeData() {
-        List<String> data1 = new ArrayList<>();
-        data1.add("Hello, world");
-        data1.add("Привет   мир!");
-        data1.add("   Пока. Пока!   Пока...   ");
+        List<String> paragraphText1 = new ArrayList<>();
+        paragraphText1.add("Hello, world");
+        paragraphText1.add("Привет   мир!");
+        paragraphText1.add("   Пока. Пока!   Пока...   ");
         List<String> expected1 = new ArrayList<>();
         expected1.add("Hello");
-        List<String> data2 = new ArrayList<>();
-        data2.add("NONE,,,,,,,.....OF");
-        data2.add(" Hello ");
+        List<String> paragraphText2 = new ArrayList<>();
+        paragraphText2.add("NONE,,,,,,,.....OF");
+        paragraphText2.add(" Hello ");
         List<String> expected2 = new ArrayList<>();
         expected2.add("NONE");
         expected2.add("OF1");
-        List<String> data3 = new ArrayList<>();
-        data3.add("NONE,,,,,,,.....OF\n");
-        data3.add(" Hello ");
+        List<String> paragraphText3 = new ArrayList<>();
+        paragraphText3.add("NONE,,,,,,,.....OF\n");
+        paragraphText3.add(" Hello ");
         List<String> expected3 = new ArrayList<>();
         expected3.add("NONE");
         return new Object[][]{
-                {data1, expected1},
-                {data2, expected2},
-                {data3, expected3},
+                {paragraphText1, expected1},
+                {paragraphText2, expected2},
+                {paragraphText3, expected3},
         };
     }
 
     @Test(dataProvider = "parseParagraphListToWordListNegativeData")
-    public void parseParagraphListToWordListNegativeTest(List<String> data, List<String> expected) {
+    public void parseParagraphListToWordListNegativeTest(List<String> paragraphText, List<String> expected) {
         try {
-            List<String> actual = stringParser.parseParagraphListToWordList(data);
+            List<String> actual = stringParser.parseParagraphListToWordList(paragraphText);
             assertNotEquals(actual, expected);
         } catch (IncorrectDataException e) {
             fail("incorrect data");
         }
     }
 
-    @DataProvider(name = "parseExceptionData")
-    public Object[][] createParseParagraphListToWordListExceptionData() {
-        List<String> data = new ArrayList<>();
-        return new Object[][]{
-                {null},
-                {data}
-        };
-    }
-
-    @Test(dataProvider = "parseExceptionData",
-            expectedExceptions = IncorrectDataException.class)
-    public void parseParagraphsListToWordsListExceptionTest(List<String> data) throws IncorrectDataException {
-        stringParser.parseParagraphListToWordList(data);
-    }
-
-    @DataProvider(name = "parseListToStringPositiveData")
-    public Object[][] createParseListToStringPositiveData() {
-        List<String> data1 = new ArrayList<>();
-        data1.add("Hello, world");
-        data1.add("Привет   мир!");
-        data1.add("      ");
-        data1.add("   Пока1. Пока2!   Пока...   ");
-        String expected1 = "Hello, world Привет   мир!           Пока1. Пока2!   Пока...   ";
-        List<String> data2 = new ArrayList<>();
-        data2.add("Hello");
-        data2.add("мир!");
-        String expected2 = "Hello мир!";
-        List<String> data3 = new ArrayList<>();
-        data3.add("2");
-        data3.add("3!");
-        data3.add("1");
-        data3.add("vb ");
-        String expected3 = "2 3! 1 vb ";
-        return new Object[][]{
-                {data1, expected1},
-                {data2, expected2},
-                {data3, expected3},
-        };
-    }
-
-    @Test(dataProvider = "parseListToStringPositiveData")
-    public void parseListToStringPositiveTest(List<String> data, String expected) {
-        try {
-            String actual = stringParser.parseListToString(data);
-            assertEquals(actual, expected);
-        } catch (IncorrectDataException e) {
-            fail("incorrect data");
-        }
-    }
-
-    @DataProvider(name = "parseListToStringNegativeData")
-    public Object[][] createParseListToStringNegativeData() {
-        List<String> data1 = new ArrayList<>();
-        data1.add("—Hello,! world");
-        data1.add("Привет   мир!");
-        data1.add("      ");
-        data1.add("   Пока1. Пока2!   Пока...   ");
-        String expected1 = "Hello, world Привет   мир!            Пока1. Пока2!   Пока...   ";
-        List<String> data2 = new ArrayList<>();
-        data2.add("Hello");
-        String expected2 = "Hello мир!";
-        List<String> data3 = new ArrayList<>();
-        data3.add("2");
-        data3.add("3!");
-        data3.add("1");
-        data3.add("vb ");
-        String expected3 = "2 3! 1 vb";
-        return new Object[][]{
-                {data1, expected1},
-                {data2, expected2},
-                {data3, expected3},
-        };
-    }
-
-    @Test(dataProvider = "parseListToStringNegativeData")
-    public void parseListToStringNegativeTest(List<String> data, String expected) {
-        try {
-            String actual = stringParser.parseListToString(data);
-            assertNotEquals(actual, expected);
-        } catch (IncorrectDataException e) {
-            fail("incorrect data");
-        }
-    }
-
-    @Test(dataProvider = "parseExceptionData",
-            expectedExceptions = IncorrectDataException.class)
-    public void parseListToStringExceptionTest(List<String> data) throws IncorrectDataException {
-        stringParser.parseListToString(data);
+    @Test(expectedExceptions = IncorrectDataException.class)
+    public void parseParagraphsListToWordsListExceptionTest() throws IncorrectDataException {
+        List<String> paragraphText = null;
+        stringParser.parseParagraphListToWordList(paragraphText);
     }
 }
