@@ -301,7 +301,6 @@ public class StringChangeTextServiceImplTest {
         };
     }
 
-
     @Test(dataProvider = "replaceWordByLengthNegativeData")
     public void replaceWordByLengthNegativeTest(List<String> actual, int length,
                                                 String newWord,

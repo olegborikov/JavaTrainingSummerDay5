@@ -225,7 +225,6 @@ public class RegExChangeTextServiceImplTest {
         regExChangeTextService.replaceSymbolByBeforeSymbol(actual, 'a', 'a', 'a');
     }
 
-
     @DataProvider(name = "replaceWordByLengthPositiveData")
     public Object[][] createReplaceWordByLengthPositiveData() {
         List<String> actual1 = new ArrayList<>();
@@ -300,7 +299,6 @@ public class RegExChangeTextServiceImplTest {
                 {actual3, 2, "так", expected3},
         };
     }
-
 
     @Test(dataProvider = "replaceWordByLengthNegativeData")
     public void replaceWordByLengthNegativeTest(List<String> actual, int length,

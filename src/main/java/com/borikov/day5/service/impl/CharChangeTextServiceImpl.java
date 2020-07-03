@@ -27,9 +27,9 @@ public class CharChangeTextServiceImpl implements CharChangeText {
             throw new IncorrectDataException();
         }
         for (char[] word : wordText) {
-            for (int j = 0; j < word.length - 1; j++) {
-                if (word[j] == beforeSymbol && word[j + 1] == oldSymbol) {
-                    word[j + 1] = newSymbol;
+            for (int i = 0; i < word.length - 1; i++) {
+                if (word[i] == beforeSymbol && word[i + 1] == oldSymbol) {
+                    word[i + 1] = newSymbol;
                 }
             }
         }

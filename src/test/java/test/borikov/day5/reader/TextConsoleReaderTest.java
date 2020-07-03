@@ -1,5 +1,6 @@
 package test.borikov.day5.reader;
 
+import com.borikov.day5.exception.IncorrectDataException;
 import com.borikov.day5.reader.TextConsoleReader;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -35,9 +36,13 @@ public class TextConsoleReaderTest {
 
     @Test(dataProvider = "readTextPositiveData")
     public void readTextPositiveTest(String data, String expected) {
-        InputStream inputData = new ByteArrayInputStream(data.getBytes());
-        String actual = textConsoleReader.readText(inputData);
-        assertEquals(actual, expected);
+        try {
+            InputStream inputData = new ByteArrayInputStream(data.getBytes());
+            String actual = textConsoleReader.readText(inputData);
+            assertEquals(actual, expected);
+        } catch (IncorrectDataException e) {
+            fail("incorrect input");
+        }
     }
 
     @DataProvider(name = "readTextNegativeData")
@@ -51,8 +56,18 @@ public class TextConsoleReaderTest {
 
     @Test(dataProvider = "readTextNegativeData")
     public void readTextNegativeTest(String data, String expected) {
-        InputStream inputData = new ByteArrayInputStream(data.getBytes());
-        String actual = textConsoleReader.readText(inputData);
-        assertNotEquals(actual, expected);
+        try {
+            InputStream inputData = new ByteArrayInputStream(data.getBytes());
+            String actual = textConsoleReader.readText(inputData);
+            assertNotEquals(actual, expected);
+        } catch (IncorrectDataException e) {
+            fail("incorrect input");
+        }
+    }
+
+    @Test(expectedExceptions = IncorrectDataException.class)
+    public void readTextExceptionTest() throws IncorrectDataException {
+        InputStream inputData = null;
+        textConsoleReader.readText(inputData);
     }
 }

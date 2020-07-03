@@ -76,7 +76,7 @@ public class StringDeleteTextServiceImplTest {
     }
 
     @Test(expectedExceptions = IncorrectDataException.class)
-    public void deletePunctuationExceptionAndNumbersTest()
+    public void deletePunctuationAndNumbersExceptionTest()
             throws IncorrectDataException {
         String text = null;
         stringDeleteTextService.deletePunctuationAndNumbers(text);
