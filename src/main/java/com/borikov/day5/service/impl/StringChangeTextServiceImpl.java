@@ -7,21 +7,24 @@ import java.util.List;
 
 public class StringChangeTextServiceImpl implements StringChangeText {
     @Override
-    public void replaceSymbolByIndex(List<String> wordText, int index, char newSymbol) throws IncorrectDataException {
-        if (wordText == null || index < 0) {
+    public void replaceSymbolByPosition(List<String> wordText, int position,
+                                        char newSymbol) throws IncorrectDataException {
+        if (wordText == null || position < 1) {
             throw new IncorrectDataException();
         }
         for (int i = 0; i < wordText.size(); i++) {
             String word = wordText.get(i);
-            if (word.length() > index) {
-                String newWord = word.substring(0, index) + newSymbol + word.substring(index + 1);
+            if (word.length() >= position) {
+                String newWord = word.substring(0, position - 1) + newSymbol + word.substring(position);
                 wordText.set(i, newWord);
             }
         }
     }
 
     @Override
-    public void replaceSymbolByBeforeSymbol(List<String> wordText, char beforeSymbol, char oldSymbol, char newSymbol) throws IncorrectDataException {
+    public void replaceSymbolByBeforeSymbol(List<String> wordText, char beforeSymbol,
+                                            char oldSymbol, char newSymbol)
+            throws IncorrectDataException {
         if (wordText == null) {
             throw new IncorrectDataException();
         }
@@ -37,7 +40,8 @@ public class StringChangeTextServiceImpl implements StringChangeText {
     }
 
     @Override
-    public void replaceWordByLength(List<String> wordText, int length, String newWord) throws IncorrectDataException {
+    public void replaceWordByLength(List<String> wordText, int length,
+                                    String newWord) throws IncorrectDataException {
         if (wordText == null || length < 0 || newWord == null) {
             throw new IncorrectDataException();
         }

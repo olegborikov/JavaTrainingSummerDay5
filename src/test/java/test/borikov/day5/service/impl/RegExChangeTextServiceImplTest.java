@@ -1,7 +1,7 @@
 package test.borikov.day5.service.impl;
 
 import com.borikov.day5.exception.IncorrectDataException;
-import com.borikov.day5.service.impl.StringChangeTextServiceImpl;
+import com.borikov.day5.service.impl.RegExChangeTextServiceImpl;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -12,17 +12,17 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
-public class StringChangeTextServiceImplTest {
-    StringChangeTextServiceImpl stringChangeTextService;
+public class RegExChangeTextServiceImplTest {
+    RegExChangeTextServiceImpl regExChangeTextService;
 
     @BeforeClass
     public void setUp() {
-        stringChangeTextService = new StringChangeTextServiceImpl();
+        regExChangeTextService = new RegExChangeTextServiceImpl();
     }
 
     @AfterClass
     public void tearDown() {
-        stringChangeTextService = null;
+        regExChangeTextService = null;
     }
 
     @DataProvider(name = "replaceSymbolByPositionPositiveData")
@@ -30,13 +30,11 @@ public class StringChangeTextServiceImplTest {
         List<String> actual1 = new ArrayList<>();
         actual1.add("Я");
         actual1.add("так");
-        actual1.add("");
         actual1.add("очарован");
         actual1.add("прелестями");
         List<String> expected1 = new ArrayList<>();
         expected1.add("Я");
         expected1.add("так");
-        expected1.add("");
         expected1.add("очарАван");
         expected1.add("прелАстями");
         List<String> actual2 = new ArrayList<>();
@@ -61,7 +59,7 @@ public class StringChangeTextServiceImplTest {
                                                  char newSymbol,
                                                  List<String> expected) {
         try {
-            stringChangeTextService.replaceSymbolByPosition(actual, position, newSymbol);
+            regExChangeTextService.replaceSymbolByPosition(actual, position, newSymbol);
             assertEquals(actual, expected);
         } catch (IncorrectDataException e) {
             fail("incorrect input");
@@ -74,13 +72,13 @@ public class StringChangeTextServiceImplTest {
         actual1.add("Я");
         actual1.add("так");
         actual1.add("");
-        actual1.add("очарован");
+        actual1.add("очарован1");
         actual1.add("прелестями");
         List<String> expected1 = new ArrayList<>();
         expected1.add("Я");
         expected1.add("так");
         expected1.add(" ");
-        expected1.add("очароАан");
+        expected1.add("очароАан1");
         expected1.add("прелеАтями");
         List<String> actual2 = new ArrayList<>();
         actual2.add("Я");
@@ -105,7 +103,7 @@ public class StringChangeTextServiceImplTest {
                                                     char newSymbol,
                                                     List<String> expected) {
         try {
-            stringChangeTextService.replaceSymbolByPosition(actual, position, newSymbol);
+            regExChangeTextService.replaceSymbolByPosition(actual, position, newSymbol);
             assertNotEquals(actual, expected);
         } catch (IncorrectDataException e) {
             fail("incorrect input");
@@ -127,21 +125,21 @@ public class StringChangeTextServiceImplTest {
     public void replaceSymbolByIndexExceptionTest(List<String> actual, int position,
                                                   char newSymbol)
             throws IncorrectDataException {
-        stringChangeTextService.replaceSymbolByPosition(actual, position, newSymbol);
+        regExChangeTextService.replaceSymbolByPosition(actual, position, newSymbol);
     }
 
     @DataProvider(name = "replaceSymbolByBeforeSymbolPositiveData")
     public Object[][] createReplaceSymbolByBeforeSymbolPositiveData() {
         List<String> actual1 = new ArrayList<>();
         actual1.add("Я");
-        actual1.add("так");
+        actual1.add("такак");
         actual1.add("очаровая");
-        actual1.add("акелестями");
+        actual1.add("акелестямиа");
         List<String> expected1 = new ArrayList<>();
         expected1.add("Я");
-        expected1.add("таЯ");
+        expected1.add("таЯаЯ");
         expected1.add("очаровая");
-        expected1.add("аЯелестями");
+        expected1.add("аЯелестямиа");
         List<String> actual2 = new ArrayList<>();
         actual2.add("Я");
         actual2.add("оk рован");
@@ -166,8 +164,9 @@ public class StringChangeTextServiceImplTest {
                                                         char newSymbol,
                                                         List<String> expected) {
         try {
-            stringChangeTextService.replaceSymbolByBeforeSymbol(actual,
+            regExChangeTextService.replaceSymbolByBeforeSymbol(actual,
                     beforeSymbol, oldSymbol, newSymbol);
+            System.out.println(actual);
             assertEquals(actual, expected);
         } catch (IncorrectDataException e) {
             fail("incorrect input");
@@ -211,7 +210,7 @@ public class StringChangeTextServiceImplTest {
                                                         char newSymbol,
                                                         List<String> expected) {
         try {
-            stringChangeTextService.replaceSymbolByBeforeSymbol(actual,
+            regExChangeTextService.replaceSymbolByBeforeSymbol(actual,
                     beforeSymbol, oldSymbol, newSymbol);
             assertNotEquals(actual, expected);
         } catch (IncorrectDataException e) {
@@ -223,8 +222,9 @@ public class StringChangeTextServiceImplTest {
     public void replaceSymbolByBeforeSymbolExceptionTest()
             throws IncorrectDataException {
         List<String> actual = null;
-        stringChangeTextService.replaceSymbolByBeforeSymbol(actual, 'a', 'a', 'a');
+        regExChangeTextService.replaceSymbolByBeforeSymbol(actual, 'a', 'a', 'a');
     }
+
 
     @DataProvider(name = "replaceWordByLengthPositiveData")
     public Object[][] createReplaceWordByLengthPositiveData() {
@@ -240,7 +240,7 @@ public class StringChangeTextServiceImplTest {
         expected1.add("акелестями");
         List<String> actual2 = new ArrayList<>();
         actual2.add("Я");
-        actual2.add("оk рован");
+        actual2.add("оkроваjн");
         actual2.add("прелестя");
         List<String> expected2 = new ArrayList<>();
         expected2.add("Я");
@@ -262,7 +262,7 @@ public class StringChangeTextServiceImplTest {
                                                 String newWord,
                                                 List<String> expected) {
         try {
-            stringChangeTextService.replaceWordByLength(actual, length, newWord);
+            regExChangeTextService.replaceWordByLength(actual, length, newWord);
             assertEquals(actual, expected);
         } catch (IncorrectDataException e) {
             fail("incorrect input");
@@ -307,7 +307,7 @@ public class StringChangeTextServiceImplTest {
                                                 String newWord,
                                                 List<String> expected) {
         try {
-            stringChangeTextService.replaceWordByLength(actual, length, newWord);
+            regExChangeTextService.replaceWordByLength(actual, length, newWord);
             assertNotEquals(actual, expected);
         } catch (IncorrectDataException e) {
             fail("incorrect input");
@@ -331,6 +331,6 @@ public class StringChangeTextServiceImplTest {
     public void replaceWordByLengthExceptionTest(List<String> actual, int length,
                                                  String newWord)
             throws IncorrectDataException {
-        stringChangeTextService.replaceWordByLength(actual, length, newWord);
+        regExChangeTextService.replaceWordByLength(actual, length, newWord);
     }
 }

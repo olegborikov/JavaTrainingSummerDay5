@@ -1,9 +1,9 @@
 package test.borikov.day5.service.impl;
 
 import com.borikov.day5.exception.IncorrectDataException;
-import com.borikov.day5.service.impl.StringDeleteTextServiceImpl;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import com.borikov.day5.service.impl.RegExDeleteTextServiceImpl;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -12,17 +12,17 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
-public class StringDeleteTextServiceImplTest {
-    StringDeleteTextServiceImpl stringDeleteTextService;
+public class RegExDeleteTextServiceImplTest {
+    RegExDeleteTextServiceImpl regExDeleteTextService;
 
-    @BeforeMethod
+    @BeforeClass
     public void setUp() {
-        stringDeleteTextService = new StringDeleteTextServiceImpl();
+        regExDeleteTextService = new RegExDeleteTextServiceImpl();
     }
 
-    @AfterMethod
+    @AfterClass
     public void tearDown() {
-        stringDeleteTextService = null;
+        regExDeleteTextService = null;
     }
 
     @DataProvider(name = "deletePunctuationAndNumbersPositiveData")
@@ -43,7 +43,7 @@ public class StringDeleteTextServiceImplTest {
     @Test(dataProvider = "deletePunctuationAndNumbersPositiveData")
     public void deletePunctuationPositiveTest(String text, String expected) {
         try {
-            String actual = stringDeleteTextService.deletePunctuationAndNumbers(text);
+            String actual = regExDeleteTextService.deletePunctuationAndNumbers(text);
             assertEquals(actual, expected);
         } catch (IncorrectDataException e) {
             fail("incorrect input");
@@ -68,7 +68,7 @@ public class StringDeleteTextServiceImplTest {
     @Test(dataProvider = "deletePunctuationAndNumbersNegativeData")
     public void deletePunctuationNegativeTest(String text, String expected) {
         try {
-            String actual = stringDeleteTextService.deletePunctuationAndNumbers(text);
+            String actual = regExDeleteTextService.deletePunctuationAndNumbers(text);
             assertNotEquals(actual, expected);
         } catch (IncorrectDataException e) {
             fail("incorrect input");
@@ -79,7 +79,7 @@ public class StringDeleteTextServiceImplTest {
     public void deletePunctuationExceptionAndNumbersTest()
             throws IncorrectDataException {
         String text = null;
-        stringDeleteTextService.deletePunctuationAndNumbers(text);
+        regExDeleteTextService.deletePunctuationAndNumbers(text);
     }
 
     @DataProvider(name = "deleteWordByLengthAndFirstLetterPositiveData")
@@ -120,7 +120,7 @@ public class StringDeleteTextServiceImplTest {
                                                              boolean isFirstLetterVowel,
                                                              List<String> expected) {
         try {
-            stringDeleteTextService.deleteWordByLengthAndFirstLetter(actual,
+            regExDeleteTextService.deleteWordByLengthAndFirstLetter(actual,
                     length, isFirstLetterVowel);
             System.out.println(actual);
             assertEquals(actual, expected);
@@ -161,7 +161,7 @@ public class StringDeleteTextServiceImplTest {
                                                              boolean isFirstLetterVowel,
                                                              List<String> expected) {
         try {
-            stringDeleteTextService.deleteWordByLengthAndFirstLetter(actual,
+            regExDeleteTextService.deleteWordByLengthAndFirstLetter(actual,
                     length, isFirstLetterVowel);
             assertNotEquals(actual, expected);
         } catch (IncorrectDataException e) {
@@ -184,7 +184,7 @@ public class StringDeleteTextServiceImplTest {
                                                               int length,
                                                               boolean isFirstLetterVowel)
             throws IncorrectDataException {
-        stringDeleteTextService.deleteWordByLengthAndFirstLetter(actual,
+        regExDeleteTextService.deleteWordByLengthAndFirstLetter(actual,
                 length, isFirstLetterVowel);
     }
 }

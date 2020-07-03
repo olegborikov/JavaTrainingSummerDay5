@@ -4,14 +4,17 @@ import com.borikov.day5.exception.IncorrectDataException;
 import com.borikov.day5.service.CharDeleteText;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class CharDeleteTextServiceImpl implements CharDeleteText {
-    private static final Pattern VOWEL_LETTERS = Pattern.compile("\\b[аоиеёэыуюяАОИЕЁЗЫУЮЯaeiouAEIOU]");
-    private static final char[] SPECIAL_SYMBOLS = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~—0123456789".toCharArray();
+    private static final char[] VOWEL_LETTERS = ("аоиеёэыуюя" +
+            "АОИЕЁЗЫУЮЯaeiouAEIOU").toCharArray();
+    private static final char[] LETTERS = ("abcdefghijklmnopqrstuvwxyz" +
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+            "абвгдежзийклмнопрстуфхцчшщъыьэюя" +
+            "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ").toCharArray();
 
     @Override
-    public char[] deletePunctuation(char[] text) throws IncorrectDataException {
+    public char[] deletePunctuationAndNumbers(char[] text) throws IncorrectDataException {
         if (text == null) {
             throw new IncorrectDataException();
         }
@@ -24,10 +27,10 @@ public class CharDeleteTextServiceImpl implements CharDeleteText {
     }
 
     private boolean isSymbolNotLetter(char symbol) {
-        boolean result = true;
-        for (char specialSymbol : SPECIAL_SYMBOLS) {
-            if (symbol == specialSymbol) {
-                result = false;
+        boolean result = false;
+        for (char letter : LETTERS) {
+            if (symbol == letter) {
+                result = true;
                 break;
             }
         }
@@ -35,23 +38,47 @@ public class CharDeleteTextServiceImpl implements CharDeleteText {
     }
 
     @Override
-    public void deleteWordByLengthAndFirstLetter(List<char[]> wordText, int length, boolean isFirstLetterVowel) throws IncorrectDataException {
+    public void deleteWordByLengthAndFirstLetter(List<char[]> wordText, int length,
+                                                 boolean isFirstLetterVowel)
+            throws IncorrectDataException {
         if (wordText == null || length < 0) {
             throw new IncorrectDataException();
         }
         for (int i = 0; i < wordText.size(); i++) {
-            String word = new String(wordText.get(i));
+            char[] word = wordText.get(i);
             if (isFirstLetterVowel) {
-                if (word.length() == length && VOWEL_LETTERS.matcher(word).find()) {
+                if (word.length == length && isSymbolVowelLetter(word[0])) {
                     wordText.remove(i);
                     i--;
                 }
             } else {
-                if (word.length() == length && !VOWEL_LETTERS.matcher(word).find()) {
+                if (word.length == length && isSymbolConsonantLetter(word[0])) {
                     wordText.remove(i);
                     i--;
                 }
             }
         }
+    }
+
+    private boolean isSymbolVowelLetter(char symbol) {
+        boolean result = false;
+        for (char vowelLetter : VOWEL_LETTERS) {
+            if (symbol == vowelLetter) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
+    private boolean isSymbolConsonantLetter(char symbol) {
+        boolean result = false;
+        for (char letter : LETTERS) {
+            if (symbol == letter && !isSymbolVowelLetter(symbol)) {
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
 }

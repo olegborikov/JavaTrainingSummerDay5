@@ -6,8 +6,10 @@ import java.util.List;
 
 public interface StringDeleteText extends DeleteText<String> {
     @Override
-    String deletePunctuation(String text) throws IncorrectDataException;
+    String deletePunctuationAndNumbers(String text) throws IncorrectDataException;
 
     @Override
-    void deleteWordByLengthAndFirstLetter(List<String> wordText, int length, boolean isFirstLetterVowel) throws IncorrectDataException;
+    void deleteWordByLengthAndFirstLetter(List<String> wordText, int length,
+                                          boolean isFirstLetterVowel)
+            throws IncorrectDataException;
 }

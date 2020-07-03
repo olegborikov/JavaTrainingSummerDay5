@@ -8,7 +8,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.testng.Assert.*;
@@ -26,12 +25,12 @@ public class CharDeleteTextServiceImplTest {
         charDeleteTextService = null;
     }
 
-    @DataProvider(name = "deletePunctuationPositiveData")
-    public Object[][] createDeletePunctuationPositiveData() {
+    @DataProvider(name = "deletePunctuationAndNumbersPositiveData")
+    public Object[][] createDeletePunctuationAndNumbersPositiveData() {
         char[] actual1 = {'a', 'b', '\'', '1', '~'};
-        char[] expected1 = {'a', 'b', ' ', '1', ' '};
-        char[] actual2 = {'e', 'а', 'ы', '>', '!', '—'};
-        char[] expected2 = {'e', 'а', 'ы', ' ', ' ', ' '};
+        char[] expected1 = {'a', 'b', ' ', ' ', ' '};
+        char[] actual2 = {'e', 'а', ' ', '>', '!', '—'};
+        char[] expected2 = {'e', 'а', ' ', ' ', ' ', ' '};
         char[] actual3 = {'#', '@', '^'};
         char[] expected3 = {' ', ' ', ' '};
         return new Object[][]{
@@ -41,20 +40,21 @@ public class CharDeleteTextServiceImplTest {
         };
     }
 
-    @Test(dataProvider = "deletePunctuationPositiveData")
-    public void deletePunctuationPositiveTest(char[] actual, char[] expected) {
+    @Test(dataProvider = "deletePunctuationAndNumbersPositiveData")
+    public void deletePunctuationAndNumbersPositiveTest(char[] actual,
+                                                        char[] expected) {
         try {
-            charDeleteTextService.deletePunctuation(actual);
+            charDeleteTextService.deletePunctuationAndNumbers(actual);
             assertEquals(actual, expected);
         } catch (IncorrectDataException e) {
             fail("incorrect input");
         }
     }
 
-    @DataProvider(name = "deletePunctuationNegativeData")
-    public Object[][] createDeletePunctuationNegativeData() {
+    @DataProvider(name = "deletePunctuationAndNumbersNegativeData")
+    public Object[][] createDeletePunctuationAndNumbersNegativeData() {
         char[] actual1 = {'a', 'b', '\'', '1', '~'};
-        char[] expected1 = {'a', 'b', ' ', ' ', ' '};
+        char[] expected1 = {'a', 'b', ' ', '1', ' '};
         char[] actual2 = {'e', 'а', 'ы', '>', '!', '—'};
         char[] expected2 = {'e', 'а', 'ы', ' ', ' '};
         char[] actual3 = {'#', '@', '^'};
@@ -66,10 +66,11 @@ public class CharDeleteTextServiceImplTest {
         };
     }
 
-    @Test(dataProvider = "deletePunctuationNegativeData")
-    public void deletePunctuationNegativeTest(char[] actual, char[] expected) {
+    @Test(dataProvider = "deletePunctuationAndNumbersNegativeData")
+    public void deletePunctuationAndNumbersNegativeTest(char[] actual,
+                                                        char[] expected) {
         try {
-            charDeleteTextService.deletePunctuation(actual);
+            charDeleteTextService.deletePunctuationAndNumbers(actual);
             assertNotEquals(actual, expected);
         } catch (IncorrectDataException e) {
             fail("incorrect input");
@@ -77,9 +78,10 @@ public class CharDeleteTextServiceImplTest {
     }
 
     @Test(expectedExceptions = IncorrectDataException.class)
-    public void deletePunctuationExceptionTest() throws IncorrectDataException {
+    public void deletePunctuationAndNumbersExceptionTest()
+            throws IncorrectDataException {
         char[] actual = null;
-        charDeleteTextService.deletePunctuation(actual);
+        charDeleteTextService.deletePunctuationAndNumbers(actual);
     }
 
     @DataProvider(name = "deleteWordByLengthAndFirstLetterPositiveData")
@@ -89,9 +91,13 @@ public class CharDeleteTextServiceImplTest {
         actual1.add(new char[]{'т', 'а', 'к'});
         actual1.add(new char[]{'о', 'ч', 'а'});
         actual1.add(new char[]{'п', 'р', 'е'});
+        actual1.add(new char[]{'1', 'р', 'е'});
+        actual1.add(new char[]{'п'});
         List<char[]> expected1 = new ArrayList<>();
         expected1.add(new char[]{'Я'});
         expected1.add(new char[]{'о', 'ч', 'а'});
+        expected1.add(new char[]{'1', 'р', 'е'});
+        expected1.add(new char[]{'п'});
         List<char[]> actual2 = new ArrayList<>();
         actual2.add(new char[]{'Я'});
         actual2.add(new char[]{'о', 'ч', 'а', 'р', 'о', 'в', 'а', 'н'});
@@ -118,9 +124,13 @@ public class CharDeleteTextServiceImplTest {
     }
 
     @Test(dataProvider = "deleteWordByLengthAndFirstLetterPositiveData")
-    public void deleteWordByLengthAndFirstLetterPositiveTest(List<char[]> actual, int length, boolean isFirstLetterVowel, List<char[]> expected) {
+    public void deleteWordByLengthAndFirstLetterPositiveTest(List<char[]> actual,
+                                                             int length,
+                                                             boolean isFirstLetterVowel,
+                                                             List<char[]> expected) {
         try {
-            charDeleteTextService.deleteWordByLengthAndFirstLetter(actual, length, isFirstLetterVowel);
+            charDeleteTextService.deleteWordByLengthAndFirstLetter(actual,
+                    length, isFirstLetterVowel);
             boolean result = equalsListCharArray(actual, expected);
             assertTrue(result);
         } catch (IncorrectDataException e) {
@@ -134,12 +144,10 @@ public class CharDeleteTextServiceImplTest {
         actual1.add(new char[]{'Я'});
         actual1.add(new char[]{'т', 'а', 'к'});
         actual1.add(new char[]{'о', 'ч', 'а'});
-        actual1.add(new char[]{'п', 'р', 'е'});
+        actual1.add(new char[]{'2', 'р', 'е'});
         List<char[]> expected1 = new ArrayList<>();
         expected1.add(new char[]{'Я'});
-        expected1.add(new char[]{'т', 'а', 'к'});
         expected1.add(new char[]{'о', 'ч', 'а'});
-        expected1.add(new char[]{'п', 'р', 'е'});
         List<char[]> actual2 = new ArrayList<>();
         actual2.add(new char[]{'Я'});
         actual2.add(new char[]{'о', 'ч', 'а', 'р', 'о', 'в', 'а', 'н'});
@@ -165,9 +173,13 @@ public class CharDeleteTextServiceImplTest {
     }
 
     @Test(dataProvider = "deleteWordByLengthAndFirstLetterNegativeData")
-    public void deleteWordByLengthAndFirstLetterNegativeTest(List<char[]> actual, int length, boolean isFirstLetterVowel, List<char[]> expected) {
+    public void deleteWordByLengthAndFirstLetterNegativeTest(List<char[]> actual,
+                                                             int length,
+                                                             boolean isFirstLetterVowel,
+                                                             List<char[]> expected) {
         try {
-            charDeleteTextService.deleteWordByLengthAndFirstLetter(actual, length, isFirstLetterVowel);
+            charDeleteTextService.deleteWordByLengthAndFirstLetter(actual,
+                    length, isFirstLetterVowel);
             boolean result = equalsListCharArray(actual, expected);
             assertFalse(result);
         } catch (IncorrectDataException e) {
@@ -186,19 +198,27 @@ public class CharDeleteTextServiceImplTest {
 
     @Test(dataProvider = "deleteWordByLengthAndFirstLetterExceptionData",
             expectedExceptions = IncorrectDataException.class)
-    public void deleteWordByLengthAndFirstLetterExceptionTest(List<char[]> actual, int length, boolean isFirstLetterVowel) throws IncorrectDataException {
-        charDeleteTextService.deleteWordByLengthAndFirstLetter(actual, length, isFirstLetterVowel);
+    public void deleteWordByLengthAndFirstLetterExceptionTest(List<char[]> actual,
+                                                              int length,
+                                                              boolean isFirstLetterVowel)
+            throws IncorrectDataException {
+        charDeleteTextService.deleteWordByLengthAndFirstLetter(actual,
+                length, isFirstLetterVowel);
     }
 
-    private boolean equalsListCharArray(List<char[]> firstCharList, List<char[]> secondCharList) {
+    private boolean equalsListCharArray(List<char[]> firstCharList,
+                                        List<char[]> secondCharList) {
         boolean result = true;
-        if (firstCharList == null || secondCharList == null || firstCharList.size() != secondCharList.size()) {
+        if (firstCharList == null || secondCharList == null
+                | firstCharList.size() != secondCharList.size()) {
             result = false;
         } else {
             for (int i = 0; i < firstCharList.size(); i++) {
+                if (!result) {
+                    break;
+                }
                 if (firstCharList.get(i).length != secondCharList.get(i).length) {
                     result = false;
-                    break;
                 } else {
                     for (int j = 0; j < firstCharList.get(i).length; j++) {
                         if (firstCharList.get(i)[j] != secondCharList.get(i)[j]) {
